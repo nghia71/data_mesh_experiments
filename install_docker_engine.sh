@@ -1,11 +1,11 @@
 # !/bin/sh
 
 # Uninstall old versions
-sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo aptt remove docker docker-engine docker.io containerd runc
 
 # Set up the repository
-sudo apt-get update -y
-sudo apt-get install \
+sudo apt update -y
+sudo apt install \
     ca-certificates \
     curl \
     gnupg \
@@ -17,8 +17,8 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Install Docker Engine
-sudo apt-get update -y
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+sudo apt update -y
+sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
 # Test
 sudo docker run hello-world
