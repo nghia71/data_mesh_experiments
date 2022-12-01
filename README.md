@@ -1,2 +1,3 @@
-# data_mesh_experiments
-Data Mesh Experiments
+# Experiments with Data Mesh
+
+1. Minikub & Docker on Ubuntu
