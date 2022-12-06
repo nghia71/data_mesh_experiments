@@ -6,7 +6,7 @@ services:
       context: ./kafka
       dockerfile: Dockerfile
     image: nghiadh/kafka-k1b:1.0.0
-    hostname: ${KRAFT_1_HOSTNAME}
+    hostname: ${KRAFT_1_HOST_NAME}
     container_name: ${KRAFT_1_CONTAINER_NAME}
     # restart: always
     ports:
@@ -14,7 +14,7 @@ services:
       - "${KRAFT_1_CONTROLLER_PORT}:${KRAFT_1_CONTROLLER_PORT}"
     environment:
       - KRAFT_ID=${KRAFT_1_ID}
-      - KRAFT_HOSTNAME=${KRAFT_1_HOSTNAME}
+      - KRAFT_HOST_NAME=${KRAFT_1_HOST_NAME}
       - KRAFT_CONTAINER_NAME=${KRAFT_1_CONTAINER_NAME}
       - KRAFT_BROKER_PORT=${KRAFT_1_BROKER_PORT}
       - KRAFT_CONTROLLER_PORT=${KRAFT_1_CONTROLLER_PORT}
@@ -27,7 +27,7 @@ services:
       context: ./kafka
       dockerfile: Dockerfile
     image: nghiadh/kafka-k1b:1.0.0
-    hostname: ${KRAFT_2_HOSTNAME}
+    hostname: ${KRAFT_2_HOST_NAME}
     container_name: ${KRAFT_2_CONTAINER_NAME}
     # restart: always
     ports:
