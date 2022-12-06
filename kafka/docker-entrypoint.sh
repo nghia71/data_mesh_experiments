@@ -22,9 +22,9 @@ echo "log.dirs=/tmp/server${KRAFT_ID}/kraft-combined-logs" >> $properties_file;
 echo "Enivronment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
-suuid=$(./bin/kafka-storage.sh random-uuid);
-echo "suuid=$suuid"
-KAFKA_STORAGE_UUID="${KAFKA_STORAGE_UUID:$suuid}";
+if [[ -z "${DEPLOY_ENV}" ]]; then
+  KAFKA_STORAGE_UUID=$(./bin/kafka-storage.sh random-uuid);
+fi
 echo $KAFKA_STORAGE_UUID
 ./bin/kafka-storage.sh format -t $KAFKA_STORAGE_UUID -c ./config/kraft/server.properties;
 echo "Kafka storage ${KAFKA_STORAGE_UUID} setup ✅";
