@@ -5,6 +5,9 @@ WORKDIR /opt
 ARG kafkaversion=3.3.1
 ARG scalaversion=2.13
 
+ARG KRAFT_BPORT
+ARG KRAFT_CPORT
+
 ENV KRAFT_CONTAINER_HOST_NAME=
 ENV KRAFT_CREATE_TOPICS=
 ENV KRAFT_PARTITIONS_PER_TOPIC=
@@ -21,6 +24,6 @@ WORKDIR /opt/kafka
 COPY ./conf/server.properties ./config/kraft
 COPY ./*.sh .
 
-EXPOSE 9092 19092 29092
+EXPOSE $KRAFT_BPORT $KRAFT_CPORT
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]

@@ -10,9 +10,12 @@ services:
     # container_name: kafka
     # restart: always
     ports:
-      - "9092:9092"
+      - "${K1B_PORT}:${K1B_PORT}"
     environment:
       - KRAFT_CONTAINER_HOST_NAME=kafka
       - KRAFT_CREATE_TOPICS=test-topic-1,test-topic-2
       - KRAFT_PARTITIONS_PER_TOPIC=2
-      - PUBLIC_IP=${PUBLIC_IP}
+      - KRAFT_ID=${K1}
+      - KRAFT_BPORT=${K1B_PORT}
+      - KRAFT_CPORT=${K1C_PORT}
+      - KRAFT_HOST=${K1_HOST}
