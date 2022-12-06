@@ -18,7 +18,7 @@ RUN wget https://downloads.apache.org/kafka/${kafkaversion}/kafka_${scalaversion
 
 WORKDIR /opt/kafka
 
-COPY ./conf/kafka-broker.properties ./config/kraft
+COPY ./conf/server.properties ./config/kraft
 COPY ./*.sh .
 
 EXPOSE 9092 9093
