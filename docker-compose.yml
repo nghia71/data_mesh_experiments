@@ -12,6 +12,8 @@ services:
     ports:
       - "${KRAFT_1_BROKER_PORT}:${KRAFT_1_BROKER_PORT}"
       - "${KRAFT_1_CONTROLLER_PORT}:${KRAFT_1_CONTROLLER_PORT}"
+    networks:
+      - backend
     environment:
       - KRAFT_ID=${KRAFT_1_ID}
       - KRAFT_HOST_NAME=${KRAFT_1_HOST_NAME}
@@ -34,6 +36,8 @@ services:
     ports:
       - "${KRAFT_2_BROKER_PORT}:${KRAFT_2_BROKER_PORT}"
       - "${KRAFT_2_CONTROLLER_PORT}:${KRAFT_2_CONTROLLER_PORT}"
+    networks:
+      - backend
     environment:
       - KRAFT_ID=${KRAFT_2_ID}
       - KRAFT_HOST_NAME=${KRAFT_2_HOST_NAME}
@@ -44,3 +48,7 @@ services:
       - KRAFT_CREATE_TOPICS=${KRAFT_DEFAULT_TOPICS}
       - KRAFT_PARTITIONS_PER_TOPIC=${KRAFT_PARTITIONS_PER_TOPIC}
       - KAFKA_HEAP_OPTS=${KAFKA_HEAP_OPTS}
+
+networks:
+  backend:
+    name: backend
