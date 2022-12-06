@@ -11,17 +11,10 @@ properties_file=/opt/kafka/config/kraft/server.properties;
 kafka_addr=localhost:9093;
 
 echo "Applying environment variables ...";
-if [ -z $KRAFT_CONTAINER_HOST_NAME ]; then
-    echo "listeners=CONTROLLER://:19092,EXTERNAL://:9093" >> $properties_file;
-    echo "advertised.listeners=EXTERNAL://localhost:9093" >> $properties_file;
-    echo "inter.broker.listener.name=EXTERNAL" >> $properties_file;
-    echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT" >> $properties_file;
-else
-    echo "listeners=CONTROLLER://:19092,INTERNAL://:9092,EXTERNAL://:9093" >> $properties_file;
-    echo "advertised.listeners=INTERNAL://${KRAFT_CONTAINER_HOST_NAME}:9092,INTERNAL://:9092,EXTERNAL://localhost:9093" >> $properties_file;
-    echo "inter.broker.listener.name=EXTERNAL" >> $properties_file;
-    echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT" >> $properties_file;
-fi
+echo "listeners=CONTROLLER://:19092,INTERNAL://:9092,EXTERNAL://:9093" >> $properties_file;
+echo "advertised.listeners=CONTROLLER://:19092,INTERNAL://${KRAFT_CONTAINER_HOST_NAME}:9092,EXTERNAL://localhost:9093" >> $properties_file;
+echo "inter.broker.listener.name=EXTERNAL" >> $properties_file;
+echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT" >> $properties_file;
 echo "Enivronment variables applied ✅";
 
 
