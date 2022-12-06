@@ -1,5 +1,6 @@
 #!/bin/sh
 
-docker compose down
+./stop.sh
+
 docker system prune -a
 sudo rm -rf vol*/
