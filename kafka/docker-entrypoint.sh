@@ -7,7 +7,7 @@ _term() {
 
 trap _term SIGINT SIGTERM
 
-properties_file=/opt/kafka/config/kraft/server.properties;
+properties_file=/opt/kafka/config/kraft/server${KRAFT_ID}.properties;
 kafka_addr=$KRAFT_HOST_NAME:$KRAFT_BPORT;
 
 echo "Applying environment variables ...";
