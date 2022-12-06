@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  kafka:
+    build: 
+      context: ./kafka
+      dockerfile: Dockerfile
+    image: nghiadh/kafka-k1b:1.0.0
+    # hostname: kafka
+    # container_name: kafka
+    # restart: always
+    ports:
+      - "9093:9093"
+    environment:
+      - KRAFT_CONTAINER_HOST_NAME=kafka
+      - KRAFT_CREATE_TOPICS=test-topic-1,test-topic-2
+      - KRAFT_PARTITIONS_PER_TOPIC=2
