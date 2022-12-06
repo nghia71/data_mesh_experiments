@@ -1,21 +1,40 @@
 version: "3.8"
 
 services:
-  kafka:
+  kafka-broker-1:
     build: 
       context: ./kafka
       dockerfile: Dockerfile
     image: nghiadh/kafka-k1b:1.0.0
-    # hostname: kafka
-    # container_name: kafka
     # restart: always
     ports:
-      - "${K1B_PORT}:${K1B_PORT}"
+      - "${KRAFT_1_BROKER_PORT}:${KRAFT_1_BROKER_PORT}"
+      - "${KRAFT_1_CONTROLLER_PORT}:${KRAFT_1_CONTROLLER_PORT}"
     environment:
-      - KRAFT_CONTAINER_HOST_NAME=kafka
-      - KRAFT_CREATE_TOPICS=test-topic-1,test-topic-2
-      - KRAFT_PARTITIONS_PER_TOPIC=2
-      - KRAFT_ID=${K1}
-      - KRAFT_BPORT=${K1B_PORT}
-      - KRAFT_CPORT=${K1C_PORT}
-      - KRAFT_HOST=${K1_HOST}
+      - KRAFT_ID=${KRAFT_1_ID}
+      - KRAFT_HOST_NAME=${KRAFT_1_HOST_NAME}
+      - KRAFT_CONTAINER_NAME=${KRAFT_1_CONTAINER_NAME}
+      - KRAFT_BROKER_PORT=${KRAFT_1_BROKER_PORT}
+      - KRAFT_CONTROLLER_PORT=${KRAFT_1_CONTROLLER_PORT}
+      - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
+      - KRAFT_CREATE_TOPICS=${KRAFT_DEFAULT_TOPICS}
+      - KRAFT_PARTITIONS_PER_TOPIC=${KRAFT_PARTITIONS_PER_TOPIC}
+
+  kafka-broker-2:
+    build: 
+      context: ./kafka
+      dockerfile: Dockerfile
+    image: nghiadh/kafka-k1b:1.0.0
+    # restart: always
+    ports:
+      - "${KRAFT_2_BROKER_PORT}:${KRAFT_2_BROKER_PORT}"
+      - "${KRAFT_2_CONTROLLER_PORT}:${KRAFT_2_CONTROLLER_PORT}"
+    environment:
+      - KRAFT_ID=${KRAFT_2_ID}
+      - KRAFT_HOST_NAME=${KRAFT_2_HOST_NAME}
+      - KRAFT_CONTAINER_NAME=${KRAFT_2_CONTAINER_NAME}
+      - KRAFT_BROKER_PORT=${KRAFT_2_BROKER_PORT}
+      - KRAFT_CONTROLLER_PORT=${KRAFT_2_CONTROLLER_PORT}
+      - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
+      - KRAFT_CREATE_TOPICS=${KRAFT_DEFAULT_TOPICS}
+      - KRAFT_PARTITIONS_PER_TOPIC=${KRAFT_PARTITIONS_PER_TOPIC}

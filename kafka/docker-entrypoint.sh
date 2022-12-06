@@ -8,27 +8,27 @@ _term() {
 trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
-kafka_addr=$KRAFT_HOST:$KRAFT_BPORT
+kafka_addr=$KRAFT_HOST:$KRAFT_BPORT;
 
 echo "Applying environment variables ...";
 echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
 echo "node.id=${KRAFT_ID}" | cat - $properties_file > temp && mv temp $properties_file;
-echo "controller.quorum.voters=${KRAFT_ID}@${KRAFT_HOST}:${KRAFT_CPORT}" | cat - $properties_file > temp && mv temp $properties_file;
+echo "controller.quorum.voters=${KRAFT_QUORUM_VOTERS}" | cat - $properties_file > temp && mv temp $properties_file;
 echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
-echo "listeners=PLAINTEXT://:${KRAFT_BPORT},CONTROLLER://:${KRAFT_CPORT}" >> $properties_file;
+echo "listeners=PLAINTEXT://:${KRAFT_BROKER_PORT},CONTROLLER://:${KRAFT_CONTROLLER_PORT}" >> $properties_file;
 echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL" >> $properties_file;
 echo "log.dirs=/tmp/server${KRAFT_ID}/kraft-combined-logs" >> $properties_file;
 echo "Enivronment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
 export suuid=$(./bin/kafka-storage.sh random-uuid);
-./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/server.properties;
+./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/server${KRAFT_ID}.properties;
 echo "Kafka storage setup ✅";
 
 
 echo "Starting Kafka server...";
-./bin/kafka-server-start.sh ./config/kraft/server.properties &
+./bin/kafka-server-start.sh ./config/kraft/server${KRAFT_ID}.properties &
 child=$!
 echo "Kafka server started ✅";
 
@@ -36,7 +36,7 @@ if [ -z $KRAFT_CREATE_TOPICS ]; then
     echo "No topic requested for creation ✅";
 else
     echo "Creating topics ...";
-    ./wait-for-it.sh $kafka_addr
+    ./wait-for-it.sh $kafka_addr;
 
     pc=1
     if [ $KRAFT_PARTITIONS_PER_TOPIC ]; then
