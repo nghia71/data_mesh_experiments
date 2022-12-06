@@ -14,3 +14,5 @@ do
     chown -R $(id -u):$(id -g) ./vol${i}/kafka-logs
 done
 echo "Volumes for data and logs are created ✅";
+
+docker compose build
