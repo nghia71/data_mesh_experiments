@@ -34,4 +34,4 @@ echo "Process(es) will listen on "$PUBLIC_IP"."
 
 echo "Make sure following ports are accesible from outside this host:"
 echo "kafka "
-echo "  9003 (controller/broker)"
+echo "  9002 (controller/broker)"

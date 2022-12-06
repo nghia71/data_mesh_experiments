@@ -10,7 +10,7 @@ services:
     # container_name: kafka
     # restart: always
     ports:
-      - "9093:9093"
+      - "9092:9092"
     environment:
       - KRAFT_CONTAINER_HOST_NAME=kafka
       - KRAFT_CREATE_TOPICS=test-topic-1,test-topic-2
