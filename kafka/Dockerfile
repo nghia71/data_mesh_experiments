@@ -5,6 +5,10 @@ WORKDIR /opt
 ARG kafkaversion=3.3.1
 ARG scalaversion=2.13
 
+ARG KRAFT_ID
+ARG KRAFT_BROKER_PORT
+ARG KRAFT_CONTROLLER_PORT
+
 RUN apt update \
     && apt install -y --no-install-recommends wget
 
