@@ -21,6 +21,6 @@ WORKDIR /opt/kafka
 COPY ./conf/server.properties ./config/kraft
 COPY ./*.sh .
 
-EXPOSE 9092 9093
+EXPOSE 9092 19092 29092
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]
