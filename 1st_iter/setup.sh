@@ -10,7 +10,7 @@ for i in 1..3
 do
     mkdir -p ./vol${i}/kafka-data
     mkdir -p ./vol${i}/kafka-logs
-    chown -R ./vol${i}/kafka-data
-    chown -R ./vol${i}/kafka-logs
+    chown -R $(id -u):$(id -g) ./vol${i}/kafka-data
+    chown -R $(id -u):$(id -g) ./vol${i}/kafka-logs
 done
 echo "Volumes for data and logs are created ✅";
