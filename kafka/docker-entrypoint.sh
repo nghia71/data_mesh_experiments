@@ -13,9 +13,9 @@ kafka_addr=$KRAFT_HOST:$KRAFT_BPORT
 echo $kafka_addr
 
 echo "Applying environment variables ...";
-echo "process.roles=broker,controller" >> $properties_file;
-echo "node.id=${KRAFT_ID}" >> $properties_file;
-echo "controller.quorum.voters=${KRAFT_ID}@${KRAFT_HOST}:${KRAFT_CPORT}" >> $properties_file;
+echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
+echo "node.id=${KRAFT_ID}" | cat - $properties_file > temp && mv temp $properties_file;
+echo "controller.quorum.voters=${KRAFT_ID}@${KRAFT_HOST}:${KRAFT_CPORT}" | cat - $properties_file > temp && mv temp $properties_file;
 echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
 echo "listeners=PLAINTEXT://:${KRAFT_BPORT},CONTROLLER://:${KRAFT_CPORT}" >> $properties_file;
