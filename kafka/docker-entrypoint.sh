@@ -9,7 +9,6 @@ trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
 kafka_addr=$KRAFT_HOST_NAME:$KRAFT_BROKER_PORT;
-echo $KRAFT_QUORUM_VOTERS
 
 echo "Applying environment variables ...";
 echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
@@ -23,9 +22,10 @@ echo "log.dirs=/tmp/server${KRAFT_ID}/kraft-combined-logs" >> $properties_file;
 echo "Enivronment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
-export suuid=$(./bin/kafka-storage.sh random-uuid);
-./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/server.properties;
-echo "Kafka storage setup ✅";
+KAFKA_STORAGE_UUID="$KAFKA_STORAGE_UUID:$(./bin/kafka-storage.sh random-uuid)";
+echo $KAFKA_STORAGE_UUID
+./bin/kafka-storage.sh format -t $KAFKA_STORAGE_UUID -c ./config/kraft/server.properties;
+echo "Kafka storage ${KAFKA_STORAGE_UUID} setup ✅";
 
 
 echo "Starting Kafka server...";
