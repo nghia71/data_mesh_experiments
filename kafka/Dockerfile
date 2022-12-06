@@ -5,7 +5,6 @@ WORKDIR /opt
 ARG kafkaversion=3.3.1
 ARG scalaversion=2.13
 
-ARG KRAFT_ID
 ARG KRAFT_BROKER_PORT
 ARG KRAFT_CONTROLLER_PORT
 
@@ -18,7 +17,7 @@ RUN wget https://downloads.apache.org/kafka/${kafkaversion}/kafka_${scalaversion
 
 WORKDIR /opt/kafka
 
-COPY ./conf/server.properties ./config/kraft/server${KRAFT_ID}.properties
+COPY ./conf/server.properties ./config/kraft/.
 COPY ./*.sh .
 
 EXPOSE $KRAFT_BROKER_PORT $KRAFT_CONTROLLER_PORT

@@ -7,7 +7,7 @@ _term() {
 
 trap _term SIGINT SIGTERM
 
-properties_file=/opt/kafka/config/kraft/server${KRAFT_ID}.properties;
+properties_file=/opt/kafka/config/kraft/server.properties;
 kafka_addr=$KRAFT_HOST_NAME:$KRAFT_BPORT;
 
 echo "Applying environment variables ...";
@@ -23,12 +23,12 @@ echo "Enivronment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
 export suuid=$(./bin/kafka-storage.sh random-uuid);
-./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/server${KRAFT_ID}.properties;
+./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/server.properties;
 echo "Kafka storage setup ✅";
 
 
 echo "Starting Kafka server...";
-./bin/kafka-server-start.sh ./config/kraft/server${KRAFT_ID}.properties &
+./bin/kafka-server-start.sh ./config/kraft/server.properties &
 child=$!
 echo "Kafka server started ✅";
 
