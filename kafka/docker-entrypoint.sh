@@ -8,17 +8,17 @@ _term() {
 trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
-kafka_addr=$KRAFT_HOST:$KRAF_BPORT
+kafka_addr=$KRAFT_HOST:$KRAFT_BPORT
 
 echo $kafka_addr
 
 echo "Applying environment variables ...";
-echo "controller.quorum.voters=${KRAFT_ID}@${KRAFT_HOST}:${KRAF_CPORT}"
-echo "controller.quorum.voters=${KRAFT_ID}@${KRAFT_HOST}:${KRAF_CPORT}" >> $properties_file;
+echo "controller.quorum.voters=${KRAFT_ID}@${KRAFT_HOST}:${KRAFT_CPORT}"
+echo "controller.quorum.voters=${KRAFT_ID}@${KRAFT_HOST}:${KRAFT_CPORT}" >> $properties_file;
 echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
-echo "listeners=PLAINTEXT://:${KRAF_BPORT},CONTROLLER://:${KRAF_CPORT}"
-echo "listeners=PLAINTEXT://:${KRAF_BPORT},CONTROLLER://:${KRAF_CPORT}" >> $properties_file;
+echo "listeners=PLAINTEXT://:${KRAFT_BPORT},CONTROLLER://:${KRAFT_CPORT}"
+echo "listeners=PLAINTEXT://:${KRAFT_BPORT},CONTROLLER://:${KRAFT_CPORT}" >> $properties_file;
 echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL" >> $properties_file;
 echo "Enivronment variables applied ✅";
 
