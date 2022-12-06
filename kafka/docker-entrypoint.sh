@@ -27,12 +27,12 @@ echo "Enivronment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
 export suuid=$(./bin/kafka-storage.sh random-uuid);
-./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/kafka-broker.properties;
+./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/server.properties;
 echo "Kafka storage setup ✅";
 
 
 echo "Starting Kafka server...";
-./bin/kafka-server-start.sh ./config/kraft/kafka-broker.properties &
+./bin/kafka-server-start.sh ./config/kraft/server.properties &
 child=$!
 echo "Kafka server started ✅";
 
