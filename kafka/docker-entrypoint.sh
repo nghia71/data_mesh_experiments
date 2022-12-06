@@ -31,7 +31,7 @@ echo "Kafka storage setup ✅";
 echo "Starting Kafka server...";
 ./bin/kafka-server-start.sh ./config/kraft/server.properties &
 child=$!
-echo "Kafka server started ✅";
+echo "Kafka server ${KRAFT_HOST_NAME} started ✅";
 
 if [ -z $KRAFT_CREATE_TOPICS ]; then
     echo "No topic requested for creation ✅";
@@ -48,7 +48,7 @@ else
     do
         ./bin/kafka-topics.sh --create --topic "$i" --partitions "$pc" --replication-factor 1 --bootstrap-server $kafka_addr;
     done
-    echo "Requested topics created ✅";
+    echo "Requested topics ${KRAFT_CREATE_TOPICS} created ✅";
 fi
 
 wait "$child";
