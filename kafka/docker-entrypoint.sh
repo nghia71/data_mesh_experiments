@@ -23,7 +23,8 @@ echo "Enivronment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
 suuid=$(./bin/kafka-storage.sh random-uuid);
-KAFKA_STORAGE_UUID="${KAFKA_STORAGE_UUID:suuid}";
+echo "suuid=$suuid"
+KAFKA_STORAGE_UUID="${KAFKA_STORAGE_UUID:$suuid}";
 echo $KAFKA_STORAGE_UUID
 ./bin/kafka-storage.sh format -t $KAFKA_STORAGE_UUID -c ./config/kraft/server.properties;
 echo "Kafka storage ${KAFKA_STORAGE_UUID} setup ✅";
