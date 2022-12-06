@@ -8,7 +8,8 @@ _term() {
 trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
-kafka_addr=localhost:9093;
+# kafka_addr=localhost:9093;
+kafka_addr=${PUBLIC_IP}:9092
 
 echo "Applying environment variables ...";
 echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
@@ -33,7 +34,7 @@ if [ -z $KRAFT_CREATE_TOPICS ]; then
     echo "No topic requested for creation ✅";
 else
     echo "Creating topics ...";
-    ./wait-for-it.sh $kafka_addr;
+    ./wait-for-it.sh $kafka_addr
 
     pc=1
     if [ $KRAFT_PARTITIONS_PER_TOPIC ]; then
