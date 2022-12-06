@@ -8,8 +8,7 @@ _term() {
 trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
-# kafka_addr=localhost:9093;
-kafka_addr=${PUBLIC_IP}:9092
+kafka_addr=localhost:9092
 
 echo "Applying environment variables ...";
 echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
