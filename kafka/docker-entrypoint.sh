@@ -14,7 +14,7 @@ echo "Applying environment variables ...";
 echo "listeners=CONTROLLER://:19092,INTERNAL://:29092,EXTERNAL://:9092" >> $properties_file;
 echo "advertised.listeners=CONTROLLER://localhost:19092,INTERNAL://${KRAFT_CONTAINER_HOST_NAME}:29092,EXTERNAL://localhost:9092" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
-echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
+echo "inter.broker.listener.name=INTERNAL" >> $properties_file;
 echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT" >> $properties_file;
 echo "Enivronment variables applied ✅";
 
