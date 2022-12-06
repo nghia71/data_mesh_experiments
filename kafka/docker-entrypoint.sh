@@ -19,7 +19,7 @@ if [ -z $KRAFT_CONTAINER_HOST_NAME ]; then
 else
     echo "listeners=CONTROLLER://:19092,INTERNAL://:9092,EXTERNAL://:9093" >> $properties_file;
     echo "advertised.listeners=INTERNAL://${KRAFT_CONTAINER_HOST_NAME}:9092,EXTERNAL://localhost:9093" >> $properties_file;
-    echo "inter.broker.listener.name=EXTERNAL" >> $properties_file;
+    echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
     echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT" >> $properties_file;
 fi
 echo "Enivronment variables applied ✅";
