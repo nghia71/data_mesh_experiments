@@ -11,7 +11,7 @@ properties_file=/opt/kafka/config/kraft/server.properties;
 kafka_addr=localhost:9093;
 
 echo "Applying environment variables ...";
-echo "advertised.listeners=CONTROLLER://${KRAFT_CONTAINER_HOST_NAME}:19092,LOCALHOST://localhost:29092,OUTSIDE://${KRAFT_OUTSIDE_IP}:9093" >> $properties_file;
+echo "advertised.listeners=CONTROLLER://${KRAFT_CONTAINER_HOST_NAME}:19092,LOCALHOST://localhost:29092,OUTSIDE://${PUBLIC_IP}:9093" >> $properties_file;
 echo "listeners=CONTROLLER://0.0.0.0:19092,LOCALHOST://localhost:29092,OUTSIDE://0.0.0.0:9093" >> $properties_file;
 echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,LOCALHOST:PLAINTEXT,OUTSIDE:PLAINTEXT" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
