@@ -18,8 +18,8 @@ echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
 echo "listeners=PLAINTEXT://:${KRAFT_BROKER_PORT},CONTROLLER://:${KRAFT_CONTROLLER_PORT}" >> $properties_file;
 echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL" >> $properties_file;
-echo "log.dirs=/tmp/server${KRAFT_ID}/kraft-combined-logs" >> $properties_file;
-echo "Enivronment variables applied ✅";
+echo "log.dirs=/tmp/server/kraft-combined-logs" >> $properties_file;
+echo "Environment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
 # export suuid=$(./bin/kafka-storage.sh random-uuid);

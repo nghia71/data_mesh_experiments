@@ -50,6 +50,9 @@ services:
       - KRAFT_CREATE_TOPICS=${KRAFT_DEFAULT_TOPICS}
       - KRAFT_PARTITIONS_PER_TOPIC=${KRAFT_PARTITIONS_PER_TOPIC}
       - KAFKA_HEAP_OPTS=${KAFKA_HEAP_OPTS}
+    volumes:
+      - "./vol${KRAFT_ID}/kafka-data:/var/lib/kafka/data"
+      - "./vol${KRAFT_ID}/kafka-logs:/tmp/server/"
 
 networks:
   backend:
