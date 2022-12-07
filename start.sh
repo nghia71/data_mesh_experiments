@@ -1,6 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 
-# export $(grep -v '^#' .env | xargs)
+HAS_IMAGE="$(docker images | grep ${KAFKA_IMAGE_NAME})"
+if [ -z $HAS_IMAGE ]; then
+    ./build.sh
+fi
+
+HAS_ENV="$(ls -f .env)"
+if [ -z $HAS_ENV ]; then
+    ./setup.sh
+fi
 
 echo "Start all services ...";
 if [ -z $1 ]; then
