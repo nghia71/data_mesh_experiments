@@ -17,7 +17,7 @@ WORKDIR /opt/kafka
 COPY ./conf/server.properties ./config/kraft/.
 COPY ./*.sh ./
 
-RUN echo "Exposing ports ${KRAFT_BROKER_PORT} ${KRAFT_CONTROLLER_PORT} ✅";
+RUN echo "Exposing ports "${KRAFT_BROKER_PORT} ${KRAFT_CONTROLLER_PORT}" ✅";
 EXPOSE $KRAFT_BROKER_PORT $KRAFT_CONTROLLER_PORT
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]

@@ -13,7 +13,7 @@ echo ${KRAFT_QUORUM_VOTERS}
 echo ${KRAFT_BROKER_PORT}
 echo ${KRAFT_CONTROLLER_PORT}
 echo ${KAFKA_STORAGE_UUID}
-echo ${KRAFT_HOST_NAME}
+echo ${KRAFT_CONTAINER_NAME}
 
 echo "Applying environment variables ...";
 echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
@@ -33,6 +33,6 @@ echo "Kafka storage ${KAFKA_STORAGE_UUID} setup ✅";
 echo "Starting Kafka server...";
 ./bin/kafka-server-start.sh ./config/kraft/server.properties &
 child=$!
-echo "Kafka server ${KRAFT_HOST_NAME} started ✅";
+echo "Kafka server ${KRAFT_CONTAINER_NAME} started ✅";
 
 wait "$child";
