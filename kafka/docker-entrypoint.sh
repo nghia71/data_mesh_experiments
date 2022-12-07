@@ -8,7 +8,6 @@ _term() {
 trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
-kafka_addr=$KRAFT_HOST_NAME:$KRAFT_BROKER_PORT;
 
 echo "Applying environment variables ...";
 echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
@@ -22,9 +21,6 @@ echo "log.dirs=/tmp/server/kraft-combined-logs" >> $properties_file;
 echo "Environment variables applied ✅";
 
 echo "Setting up Kafka storage ...";
-# export suuid=$(./bin/kafka-storage.sh random-uuid);
-# ./bin/kafka-storage.sh format -t $suuid -c ./config/kraft/server.properties;
-# echo "Kafka storage ${suuid} setup ✅";
 ./bin/kafka-storage.sh format -t $KAFKA_STORAGE_UUID -c ./config/kraft/server.properties;
 echo "Kafka storage ${KAFKA_STORAGE_UUID} setup ✅";
 
@@ -32,23 +28,5 @@ echo "Starting Kafka server...";
 ./bin/kafka-server-start.sh ./config/kraft/server.properties &
 child=$!
 echo "Kafka server ${KRAFT_HOST_NAME} started ✅";
-
-if [ -z $KRAFT_CREATE_TOPICS ]; then
-    echo "No topic requested for creation ✅";
-else
-    echo "Creating topics ...";
-    ./wait-for-it.sh $kafka_addr;
-
-    pc=1
-    if [ $KRAFT_PARTITIONS_PER_TOPIC ]; then
-        pc=$KRAFT_PARTITIONS_PER_TOPIC
-    fi
-
-    for i in $(echo $KRAFT_CREATE_TOPICS | sed "s/,/ /g")
-    do
-        ./bin/kafka-topics.sh --create --topic "$i" --partitions "$pc" --replication-factor 1 --bootstrap-server $kafka_addr;
-    done
-    echo "Requested topics ${KRAFT_CREATE_TOPICS} created ✅";
-fi
 
 wait "$child";
