@@ -8,12 +8,7 @@ _term() {
 trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
-echo ${KRAFT_ID}
-echo ${KRAFT_QUORUM_VOTERS}
-echo ${KRAFT_BROKER_PORT}
-echo ${KRAFT_CONTROLLER_PORT}
-echo ${KAFKA_STORAGE_UUID}
-echo ${KRAFT_CONTAINER_NAME}
+echo ${KRAFT_ID} ${KRAFT_QUORUM_VOTERS} ${KRAFT_BROKER_PORT} ${KRAFT_CONTROLLER_PORT} ${KAFKA_STORAGE_UUID} ${KRAFT_CONTAINER_NAME}
 
 echo "Applying environment variables ...";
 echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
