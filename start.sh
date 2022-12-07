@@ -4,9 +4,10 @@ echo "Start all services ...";
 if [ -z $1 ]; then
     docker compose up
 else
-    docker compose up -d;
-    
-    for i in {1..2} do
+    docker compose up -d
+
+    for i in {1..2}
+    do
         echo "Wait for ${KRAFT_${i}_CONTAINER_NAME} ...";
         ./kafka/wait-for-it.sh $KRAFT_${i}_HOST_NAME:$KRAFT_${i}_BROKER_PORT;
         echo "${KRAFT_1_CONTAINER_NAME} is ready ✅";
