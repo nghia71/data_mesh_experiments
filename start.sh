@@ -1,7 +1,11 @@
 #!/bin/sh
 
 echo "Start all services ...";
-docker compose up -d
+if [ -z $1 ]; then
+    docker compose up
+else
+    docker compose up -d
+fi
 
 for i in {1..2} do
     echo "Wait for ${KRAFT_${i}_CONTAINER_NAME} ...";
