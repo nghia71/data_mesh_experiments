@@ -17,18 +17,7 @@ WORKDIR /opt/kafka
 COPY ./conf/server.properties ./config/kraft/.
 COPY ./*.sh ./
 
-RUN echo "Setting up Kafka storage ...";
-RUN ./bin/kafka-storage.sh format -t $KAFKA_STORAGE_UUID -c ./config/kraft/server.properties;
-RUN echo "Kafka storage ${KAFKA_STORAGE_UUID} setup ✅";
-
-RUN echo "Setting up Kafka storage ...";
-RUN ./bin/kafka-storage.sh format -t $KAFKA_STORAGE_UUID -c ./config/kraft/server.properties;
-RUN echo "Kafka storage ${KAFKA_STORAGE_UUID} setup ✅";
-
 RUN echo "Exposing ports ${KRAFT_BROKER_PORT} ${KRAFT_CONTROLLER_PORT} ✅";
 EXPOSE $KRAFT_BROKER_PORT $KRAFT_CONTROLLER_PORT
 
-RUN echo "Starting Kafka server...";
-CMD ["./bin/kafka-server-start.sh", "./config/kraft/server.properties"]
-
-# ENTRYPOINT [ "./docker-entrypoint.sh" ]
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
