@@ -15,7 +15,7 @@ RUN wget https://downloads.apache.org/kafka/${kafkaversion}/kafka_${scalaversion
 WORKDIR /opt/kafka
 
 COPY ./conf/server.properties ./config/kraft/.
-COPY ./*.sh /.
+COPY ./*.sh ./
 
 RUN echo "Setting up Kafka storage ...";
 RUN ./bin/kafka-storage.sh format -t $KAFKA_STORAGE_UUID -c ./config/kraft/server.properties;
