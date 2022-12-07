@@ -1,22 +1,23 @@
 #!/bin/sh
 
-export $(grep -v '^#' .env | xargs)
+# export $(grep -v '^#' .env | xargs)
 
 echo "Start all services ...";
 if [ -z $1 ]; then
     docker compose up
 else
-    docker compose up -d
+    docker compose up
+    # docker compose up -d
 
-    for i in {1..2}
-    do
-        KRAFT_CONTAINER_NAME="KRAFT_${i}_CONTAINER_NAME"
-        KRAFT_HOST="RAFT_${i}_HOST_NAME:$KRAFT_${i}_BROKER_PORT"
-        echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
-        ./kafka/wait-for-it.sh ${KRAFT_HOST};
-        echo "${KRAFT_CONTAINER_NAME} is ready ✅";
-    done
-    echo "All services are ready ✅";
+    # for i in {1..2}
+    # do
+    #     KRAFT_CONTAINER_NAME="KRAFT_${i}_CONTAINER_NAME"
+    #     KRAFT_HOST="RAFT_${i}_HOST_NAME:$KRAFT_${i}_BROKER_PORT"
+    #     echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
+    #     ./kafka/wait-for-it.sh ${KRAFT_HOST};
+    #     echo "${KRAFT_CONTAINER_NAME} is ready ✅";
+    # done
+    # echo "All services are ready ✅";
 fi
 
 
