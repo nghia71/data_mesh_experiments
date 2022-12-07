@@ -5,7 +5,7 @@ services:
     build: 
       context: ./kafka
       dockerfile: Dockerfile
-    image: nghiadh/kafka-kraft:1.0.0
+    image: nghiadh/kafka-kraft:0.1.0
     hostname: ${KRAFT_1_HOST_NAME}
     container_name: ${KRAFT_1_CONTAINER_NAME}
     # restart: always
@@ -36,7 +36,7 @@ services:
     build: 
       context: ./kafka
       dockerfile: Dockerfile
-    image: nghiadh/kafka-kraft:1.0.0
+    image: nghiadh/kafka-kraft:0.1.0
     hostname: ${KRAFT_2_HOST_NAME}
     container_name: ${KRAFT_2_CONTAINER_NAME}
     # restart: always
