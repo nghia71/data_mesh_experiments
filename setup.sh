@@ -1,7 +1,5 @@
 #!/bin/sh
 
-./build.sh
-
 echo "Setup Kafka storage UUID ...";
 KAFKA_STORAGE_UUID="$(cat /proc/sys/kernel/random/uuid | tr -d '-' | base64 | cut -b 1-22)"
 sed 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/' .kafka_env > .env
