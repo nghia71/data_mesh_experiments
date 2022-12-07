@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export $(grep -v '^#' .env | xargs)
+
 echo "Start all services ...";
 if [ -z $1 ]; then
     docker compose up
