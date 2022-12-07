@@ -10,9 +10,11 @@ else
 
     for i in {1..2}
     do
-        echo "Wait for ${KRAFT_${i}_CONTAINER_NAME} ...";
-        ./kafka/wait-for-it.sh $KRAFT_${i}_HOST_NAME:$KRAFT_${i}_BROKER_PORT;
-        echo "${KRAFT_1_CONTAINER_NAME} is ready ✅";
+        KRAFT_CONTAINER_NAME="KRAFT_${i}_CONTAINER_NAME"
+        KRAFT_HOST="RAFT_${i}_HOST_NAME:$KRAFT_${i}_BROKER_PORT"
+        echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
+        ./kafka/wait-for-it.sh ${KRAFT_HOST};
+        echo "${KRAFT_CONTAINER_NAME} is ready ✅";
     done
     echo "All services are ready ✅";
 fi
