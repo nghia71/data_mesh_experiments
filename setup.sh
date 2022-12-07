@@ -7,6 +7,8 @@ echo "Kafka storage UUID is set to ${KAFKA_STORAGE_UUID} ✅";
 
 echo "Create volumes for data and logs ...";
 for i in {1..3}; do
+    echo ${i};
+    echo $i;
     mkdir -p ./vol${i}/kafka-data;
     mkdir -p ./vol${i}/kafka-logs;
     chown -R $(id -u):$(id -g) ./vol${i}/kafka-data;
