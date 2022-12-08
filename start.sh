@@ -7,26 +7,28 @@ fi
 source .env;
 
 echo "Start all services ...";
-CURRENT_UID=$(id -u):$(id -g) docker compose up -d
+CURRENT_UID=$(id -u):$(id -g) docker compose up
 
-echo "Wait for all services to be ready ...";
-source .env;
-NUMER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
-i=1
-while [[ $i -le $NUMER_OF_KAFKA_INSTANCES ]]
-do
-    KRAFT_CONTAINER_NAME_VAR="KRAFT_${i}_CONTAINER_NAME"
-    KRAFT_CONTAINER_NAME="${!KRAFT_CONTAINER_NAME_VAR}";
-    KRAFT_HOST_NAME_VAR="KRAFT_${i}_HOST_NAME"
-    KRAFT_BROKER_PORT_VAR="KRAFT_${i}_BROKER_PORT"
-    KRAFT_HOST="${!KRAFT_HOST_NAME_VAR}:${!KRAFT_BROKER_PORT_VAR}"
+# CURRENT_UID=$(id -u):$(id -g) docker compose up -d
 
-    echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
-    ./kafka/wait-for-it.sh ${KRAFT_HOST};
-    echo "${KRAFT_CONTAINER_NAME} is ready ✅";
+# echo "Wait for all services to be ready ...";
+# source .env;
+# NUMER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
+# i=1
+# while [[ $i -le $NUMER_OF_KAFKA_INSTANCES ]]
+# do
+#     KRAFT_CONTAINER_NAME_VAR="KRAFT_${i}_CONTAINER_NAME"
+#     KRAFT_CONTAINER_NAME="${!KRAFT_CONTAINER_NAME_VAR}";
+#     KRAFT_HOST_NAME_VAR="KRAFT_${i}_HOST_NAME"
+#     KRAFT_BROKER_PORT_VAR="KRAFT_${i}_BROKER_PORT"
+#     KRAFT_HOST="${!KRAFT_HOST_NAME_VAR}:${!KRAFT_BROKER_PORT_VAR}"
 
-    ((i = i + 1))
-done
+#     echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
+#     ./kafka/wait-for-it.sh ${KRAFT_HOST};
+#     echo "${KRAFT_CONTAINER_NAME} is ready ✅";
+
+#     ((i = i + 1))
+# done
 
 # if [ -z $KRAFT_CREATE_TOPICS ]; then
 #     echo "No topic requested for creation ✅";
