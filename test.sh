@@ -15,13 +15,13 @@ echo $'12345\nabcde\n@$#^%$' > sent_messages.txt
 NO_MESSAGES="$(cat sent_messages.txt | wc -l)"
 
 echo "Sending ${NO_MESSAGES} messages into ${KRAFT_TEST_TOPIC} ...";
-docker exec --interactive --tty ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-producer.sh \
+docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-producer.sh \
     --topic ${KRAFT_TEST_TOPIC} \
     --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT} < sent_messages.txt;
 echo "${NO_MESSAGES} messages sent ✅";
 
 echo "Receiving ${NO_MESSAGES} messages from ${KRAFT_TEST_TOPIC} ...";
-docker exec --interactive --tty ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
+docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
     --topic ${KRAFT_TEST_TOPIC} \
     --from-beginning --max-messages ${NO_MESSAGES} \
     --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT} > recv_messages.txt;
