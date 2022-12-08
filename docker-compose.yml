@@ -22,6 +22,7 @@ services:
       - KRAFT_CONTROLLER_PORT=${KRAFT_1_CONTROLLER_PORT}
       - KRAFT_EXTERNAL_PORT=${KRAFT_1_EXTERNAL_PORT}
       - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
+      - LOCAL_IP=${LOCAL_IP}
     volumes:
       - "${KRAFT_1_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_1_LOGS_VOL}:/tmp/server/"
@@ -47,6 +48,7 @@ services:
       - KRAFT_CONTROLLER_PORT=${KRAFT_2_CONTROLLER_PORT}
       - KRAFT_EXTERNAL_PORT=${KRAFT_2_EXTERNAL_PORT}
       - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
+      - LOCAL_IP=${LOCAL_IP}
     volumes:
       - "${KRAFT_2_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_2_LOGS_VOL}:/tmp/server/"

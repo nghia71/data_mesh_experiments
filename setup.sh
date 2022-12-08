@@ -9,6 +9,10 @@ KAFKA_STORAGE_UUID="$(uuidgen | tr -d '-' | base64 | cut -b 1-22)";
 sed -i 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/' .env;
 echo "Kafka storage UUID is set to ${KAFKA_STORAGE_UUID} ✅";
 
+LOCAL_IP=$(ip addr show $(ip route | awk '/default/ { print $5 }' | head -n 1) | grep "inet" | head -n 1 | awk '/inet/ {print $2}' | cut -d'/' -f1)
+sed -i 's/LOCAL_IP=.*/LOCAL_IP='${LOCAL_IP}'/' .env;
+echo "Local IP is set to ${LOCAL_IP} ✅";
+
 source .env
 
 echo "Create volumes for data and logs ...";
