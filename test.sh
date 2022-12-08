@@ -11,7 +11,7 @@ docker exec --user $(id -u):$(id -g) ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-topic
 echo "${KRAFT_TEST_TOPIC} created ✅";
 
 
-echo "12345\nabcde\n@$#^%$" > sent_messages.txt
+echo $'12345\nabcde\n@$#^%$' > sent_messages.txt
 NO_MESSAGES="$(cat sent_messages.txt | wc -l)"
 
 echo "Sending ${NO_MESSAGES} messages into ${KRAFT_TEST_TOPIC} ...";
