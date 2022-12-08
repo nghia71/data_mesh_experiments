@@ -10,8 +10,7 @@ services:
     container_name: ${KRAFT_1_CONTAINER_NAME}
     # restart: always
     ports:
-      - "${KRAFT_1_BROKER_PORT}:${KRAFT_1_BROKER_PORT}"
-      - "${KRAFT_1_CONTROLLER_PORT}:${KRAFT_1_CONTROLLER_PORT}"
+      - "${KRAFT_EXTERNAL_PORT}:${KRAFT_1_EXTERNAL_PORT}"
     networks:
       - backend
     environment:
@@ -21,8 +20,8 @@ services:
       - KRAFT_CONTAINER_NAME=${KRAFT_1_CONTAINER_NAME}
       - KRAFT_BROKER_PORT=${KRAFT_1_BROKER_PORT}
       - KRAFT_CONTROLLER_PORT=${KRAFT_1_CONTROLLER_PORT}
+      - KRAFT_EXTERNAL_PORT=${KRAFT_1_EXTERNAL_PORT}
       - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
-      - KAFKA_HEAP_OPTS=${KAFKA_HEAP_OPTS}
     volumes:
       - "${KRAFT_1_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_1_LOGS_VOL}:/tmp/server/"
@@ -36,8 +35,7 @@ services:
     container_name: ${KRAFT_2_CONTAINER_NAME}
     # restart: always
     ports:
-      - "${KRAFT_2_BROKER_PORT}:${KRAFT_2_BROKER_PORT}"
-      - "${KRAFT_2_CONTROLLER_PORT}:${KRAFT_2_CONTROLLER_PORT}"
+      - "${KRAFT_EXTERNAL_PORT}:${KRAFT_2_EXTERNAL_PORT}"
     networks:
       - backend
     environment:
@@ -48,7 +46,6 @@ services:
       - KRAFT_BROKER_PORT=${KRAFT_2_BROKER_PORT}
       - KRAFT_CONTROLLER_PORT=${KRAFT_2_CONTROLLER_PORT}
       - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
-      - KAFKA_HEAP_OPTS=${KAFKA_HEAP_OPTS}
     volumes:
       - "${KRAFT_2_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_2_LOGS_VOL}:/tmp/server/"

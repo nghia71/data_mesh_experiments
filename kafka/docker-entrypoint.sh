@@ -8,7 +8,7 @@ _term() {
 trap _term SIGINT SIGTERM
 
 properties_file=/opt/kafka/config/kraft/server.properties;
-echo ${KRAFT_ID} ${KRAFT_QUORUM_VOTERS} ${KRAFT_BROKER_PORT} ${KRAFT_CONTROLLER_PORT} ${KAFKA_STORAGE_UUID} ${KRAFT_CONTAINER_NAME}
+echo ${KRAFT_ID} ${KRAFT_QUORUM_VOTERS} ${KRAFT_BROKER_PORT} ${KRAFT_CONTROLLER_PORT}  ${KRAFT_EXTERNAL_PORT} ${KAFKA_STORAGE_UUID} ${KRAFT_CONTAINER_NAME}
 
 echo "Applying environment variables ...";
 echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
@@ -16,8 +16,9 @@ echo "node.id=${KRAFT_ID}" | cat - $properties_file > temp && mv temp $propertie
 echo "controller.quorum.voters=${KRAFT_QUORUM_VOTERS}" | cat - $properties_file > temp && mv temp $properties_file;
 echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
-echo "listeners=PLAINTEXT://:${KRAFT_BROKER_PORT},CONTROLLER://:${KRAFT_CONTROLLER_PORT}" >> $properties_file;
-echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL" >> $properties_file;
+echo "listeners=PLAINTEXT://:${KRAFT_BROKER_PORT},CONTROLLER://:${KRAFT_CONTROLLER_PORT},EXTERNAL://:${KRAFT_EXTERNAL_PORT}" >> $properties_file;
+echo "advertised.listeners=PLAINTEXT://${KRAFT_CONTAINER_NAME}:${KRAFT_BROKER_PORT},EXTERNAL://0.0.0.0:${KRAFT_EXTERNAL_PORT}" >> $properties_file;
+echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL,EXTERNAL:PLAINTEXT" >> $properties_file;
 echo "log.dirs=/tmp/server/kraft-combined-logs" >> $properties_file;
 echo "Environment variables applied ✅";
 
