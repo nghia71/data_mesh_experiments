@@ -4,6 +4,8 @@ if [ -z "$(ls -f .env)" ]; then
     echo "Please run ./setup.sh";
 fi
 
+source .env;
+
 echo "Start all services ...";
 CURRENT_UID=$(id -u):$(id -g) docker compose up -d
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source .docker_env;
+source .env_template;
 KAFKA_IMAGE="${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}";
 KAFKA_TAGGED_IMAGE="${KAFKA_IMAGE}:${KAFKA_IMAGE_VERSION}";
 if [ -z "$(docker images | grep ${KAFKA_IMAGE})" ]; then
