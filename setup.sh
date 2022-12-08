@@ -10,7 +10,7 @@
 # echo "Kafka storage UUID is set to ${KAFKA_STORAGE_UUID} ✅";
 
 source .env
-env
+echo $DOCKERHUB_ACCOUNT
 
 echo "Create volumes for data and logs ...";
 NUMER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
@@ -21,15 +21,12 @@ do
     DATA_DIR="${!DATA_DIR_VAR}";
     LOGS_DIR_VAR="KRAFT_${i}_LOGS_VOL";
     LOGS_DIR="${!LOGS_DIR_VAR}";
-    CONF_DIR_VAR="KRAFT_${i}_CONF_VOL";
-    CONF_DIR="${!CONF_DIR_VAR}";
+    echo $DATA_DIR $LOGS_DIR;
 
     mkdir -p ${DATA_DIR};
     mkdir -p ${LOGS_DIR};
-    mkdir -p ${CONF_DIR};
     chown -R $(id -u):$(id -g) ${DATA_DIR};
     chown -R $(id -u):$(id -g) ${LOGS_DIR};
-    chown -R $(id -u):$(id -g) ${CONF_DIR};
 
     ((i = i + 1))
 done
