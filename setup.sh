@@ -5,11 +5,11 @@ CURRENT_UID=$(id -u):$(id -g) docker compose build;
 echo "Kafka image ${KAFKA_TAGGED_IMAGE} are ready ✅";
 
 echo "Seting up Kafka storage UUID ...";
-KAFKA_STORAGE_UUID="$(uuidgen | tr -d '-' | base64 | cut -b 1-22)"
-sed 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/' .env_template > .env
+KAFKA_STORAGE_UUID="$(uuidgen | tr -d '-' | base64 | cut -b 1-22)";
+sed -i 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/';
 echo "Kafka storage UUID is set to ${KAFKA_STORAGE_UUID} ✅";
 
-source .env
+source .env;
 
 echo "Create volumes for data and logs ...";
 NUMER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
