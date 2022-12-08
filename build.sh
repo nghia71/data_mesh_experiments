@@ -1,15 +1,16 @@
 #!/bin/bash
 
-CURRENT_DIR="$(pwd)"
-
-export $(grep -v '^#' .docker_env | xargs)
-KAFKA_IMAGE_NAME="${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE}"
-HAS_IMAGE="$(docker images | grep ${KAFKA_IMAGE_NAME})"
-if [ -z $HAS_IMAGE ]; then
-    cd kafka
-    docker build --pull -t ${KAFKA_IMAGE_NAME} .
-    # docker push ${KAFKA_IMAGE_NAME}
-    cd $CURRENT_DIR
+source .docker_env;
+KAFKA_IMAGE="${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}";
+KAFKA_TAGGED_IMAGE="${KAFKA_IMAGE}:${KAFKA_IMAGE_VERSION}";
+if [ -z "$(docker images | grep ${KAFKA_IMAGE})" ]; then
+    echo 'no images'
+    cd kafka;
+    docker build --user $(id -u):$(id -g) -t ${KAFKA_TAGGED_IMAGE} .;
+    cd ..;
 fi
 
-echo "${KAFKA_IMAGE_NAME} is ready ✅";
+# Push the image if needed
+# docker push ${KAFKA_TAGGED_IMAGE}
+
+echo "${KAFKA_TAGGED_IMAGE} is ready ✅";

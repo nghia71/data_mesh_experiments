@@ -26,8 +26,8 @@ services:
       - KRAFT_PARTITIONS_PER_TOPIC=${KRAFT_PARTITIONS_PER_TOPIC}
       - KAFKA_HEAP_OPTS=${KAFKA_HEAP_OPTS}
     volumes:
-      - "./vol${KRAFT_1_ID}/kafka-data:/var/lib/kafka/data"
-      - "./vol${KRAFT_1_ID}/kafka-logs:/tmp/server/"
+      - "${KRAFT_1_DATA_VOL}:/var/lib/kafka/data"
+      - "${KRAFT_1_LOGS_VOL}:/tmp/server/"
 
   kafka-2:
     build: 
@@ -54,8 +54,8 @@ services:
       - KRAFT_PARTITIONS_PER_TOPIC=${KRAFT_PARTITIONS_PER_TOPIC}
       - KAFKA_HEAP_OPTS=${KAFKA_HEAP_OPTS}
     volumes:
-      - "./vol${KRAFT_2_ID}/kafka-data:/var/lib/kafka/data"
-      - "./vol${KRAFT_2_ID}/kafka-logs:/tmp/server/"
+      - "${KRAFT_2_DATA_VOL}:/var/lib/kafka/data"
+      - "${KRAFT_2_LOGs_VOL}:/tmp/server/"
 
 networks:
   backend:

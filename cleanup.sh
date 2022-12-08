@@ -2,6 +2,11 @@
 
 ./stop.sh
 
-docker system prune -a
+echo "Pruning docker system ...";
+docker system prune -a -f
+echo "Docker system pruned ✅";
 
-sudo rm -rf vol*/
+echo "Removing instance files ...";
+rm .env
+rm -rf vol*/
+echo "Instance files removed ✅";

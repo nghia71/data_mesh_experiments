@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo "Stopping all services ...";
-docker compose down
+CURRENT_UID=$(id -u):$(id -g) docker compose down
 echo "All services are stopped ✅";

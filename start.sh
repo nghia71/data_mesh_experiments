@@ -1,35 +1,27 @@
 #!/bin/bash
 
-export $(grep -v '^#' .docker_env | xargs)
-KAFKA_IMAGE_NAME="${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE}"
-HAS_IMAGE="$(docker images | grep ${KAFKA_IMAGE_NAME})"
-if [ -z $HAS_IMAGE ]; then
-    ./build.sh
-fi
-
-HAS_ENV="$(ls -f .env)"
-if [ -z $HAS_ENV ]; then
-    ./setup.sh
+if [ -z "$(ls -f .env)" ]; then
+    echo "Please run ./setup.sh";
 fi
 
 echo "Start all services ...";
-if [ -z $1 ]; then
-    docker compose up
-else
-    docker compose up
-    # docker compose up -d
+CURRENT_UID=$(id -u):$(id -g) docker compose up -d
 
-    # for i in {1..2}
-    # do
-    #     KRAFT_CONTAINER_NAME="KRAFT_${i}_CONTAINER_NAME"
-    #     KRAFT_HOST="RAFT_${i}_HOST_NAME:$KRAFT_${i}_BROKER_PORT"
-    #     echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
-    #     ./kafka/wait-for-it.sh ${KRAFT_HOST};
-    #     echo "${KRAFT_CONTAINER_NAME} is ready ✅";
-    # done
-    # echo "All services are ready ✅";
-fi
+echo "Wait for all services to be ready ...";
+source .env;
+NUMER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
+i=1
+while [[ $i -le $NUMER_OF_KAFKA_INSTANCES ]]
+do
+    KRAFT_CONTAINER_NAME="KRAFT_${i}_CONTAINER_NAME"
+    KRAFT_HOST_NAME="KRAFT_${i}_HOST_NAME"
+    KRAFT_BROKER_PORT="KRAFT_${i}_BROKER_PORT"
+    echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
+    ./kafka/wait-for-it.sh ${KRAFT_HOST_NAME}:${KRAFT_BROKER_PORT};
+    echo "${KRAFT_CONTAINER_NAME} is ready ✅";
 
+    ((i = i + 1))
+done
 
 # if [ -z $KRAFT_CREATE_TOPICS ]; then
 #     echo "No topic requested for creation ✅";
