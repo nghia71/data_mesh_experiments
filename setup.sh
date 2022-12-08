@@ -6,7 +6,7 @@ echo "Kafka image ${KAFKA_TAGGED_IMAGE} are ready ✅";
 
 echo "Seting up Kafka storage UUID ...";
 KAFKA_STORAGE_UUID="$(uuidgen | tr -d '-' | base64 | cut -b 1-22)";
-sed -i 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/';
+sed -i 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/' .env;
 echo "Kafka storage UUID is set to ${KAFKA_STORAGE_UUID} ✅";
 
 source .env
