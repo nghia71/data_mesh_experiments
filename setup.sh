@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Prepare Kafka image...";
-CURRENT_UID=$(id -u):$(id -g) docker compose build --pull;
+CURRENT_UID=$(id -u):$(id -g) docker compose build;
 echo "Kafka image ${KAFKA_TAGGED_IMAGE} are ready ✅";
 
 echo "Seting up Kafka storage UUID ...";

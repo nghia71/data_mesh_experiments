@@ -10,34 +10,15 @@ docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-topics.sh \
     --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT};
 echo "${KRAFT_TEST_TOPIC} created ✅";
 
-
-echo $'12345\nabcde\n@$#^%$' > sent_messages.txt
-NO_MESSAGES="$(cat sent_messages.txt | wc -l)"
+NO_MESSAGES=3
 
 echo "Sending ${NO_MESSAGES} messages into ${KRAFT_TEST_TOPIC} ...";
-docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-producer.sh \
-    --topic ${KRAFT_TEST_TOPIC} \
-    --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT} < sent_messages.txt;
+docker exec ${KRAFT_1_CONTAINER_NAME} \
+    bash -c "seq ${NO_MESSAGES} | ./bin/kafka-console-producer.sh  --topic ${KRAFT_TEST_TOPIC}  --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT}"
 echo "${NO_MESSAGES} messages sent ✅";
 
 echo "Receiving ${NO_MESSAGES} messages from ${KRAFT_TEST_TOPIC} ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
     --topic ${KRAFT_TEST_TOPIC} \
-    --from-beginning \
+    --from-beginning --max-messages ${NO_MESSAGES} \
     --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT}
-# head -n -1 recv_messages.txt > temp.txt ; mv temp.txt recv_messages.txt
-# NO_MESSAGES="$(cat recv_messages.txt | wc -l)"
-# echo "Received ${NO_MESSAGES} messages ✅";
-
-# if [ -z "$(diff sent_messages.txt recv_messages.txt)" ]; then
-#     echo "All ${NO_MESSAGES} messages matched ✅";
-#     rm sent_messages.txt recv_messages.txt
-
-#     echo "Deleting ${KRAFT_TEST_TOPIC} ...";
-#     docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-topics.sh \
-#         --delete --topic ${KRAFT_TEST_TOPIC} \
-#         --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT};
-#     echo "${KRAFT_TEST_TOPIC} deleted ✅";
-# else
-#     echo "ERROR: sent and received messages do not match.";
-# fi
