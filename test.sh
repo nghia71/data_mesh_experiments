@@ -23,7 +23,7 @@ echo "${NO_MESSAGES} messages sent ✅";
 echo "Receiving ${NO_MESSAGES} messages from ${KRAFT_TEST_TOPIC} ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
     --topic ${KRAFT_TEST_TOPIC} \
-    --from-beginning --max-messages ${NO_MESSAGES} \
+    --from-beginning \
     --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT}
 # head -n -1 recv_messages.txt > temp.txt ; mv temp.txt recv_messages.txt
 # NO_MESSAGES="$(cat recv_messages.txt | wc -l)"
