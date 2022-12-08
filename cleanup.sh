@@ -8,5 +8,5 @@ echo "Docker system pruned ✅";
 
 echo "Removing instance files ...";
 rm .env
-rm -rf vol
+sudo rm -rf vol
 echo "Instance files removed ✅";
