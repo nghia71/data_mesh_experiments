@@ -26,7 +26,6 @@ services:
     volumes:
       - "${KRAFT_1_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_1_LOGS_VOL}:/tmp/server/"
-      - "${KRAFT_1_CONF_VOL}:/opt/kafka/config/kraft"
 
   kafka-2:
     build: 
@@ -53,7 +52,6 @@ services:
     volumes:
       - "${KRAFT_2_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_2_LOGS_VOL}:/tmp/server/"
-      - "${KRAFT_2_CONF_VOL}:/opt/kafka/config/kraft"
 
 networks:
   backend:
