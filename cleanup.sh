@@ -2,8 +2,8 @@
 
 ./stop.sh
 
-sed -i 's/LOCAL_IP=/LOCAL_IP='${LOCAL_IP}'/' .env;
-sed -i 's/KAFKA_STORAGE_UUID=/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/' .env;
+sed -i 's/LOCAL_IP=.*/LOCAL_IP=/' .env;
+sed -i 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID=/' .env;
 
 echo "Pruning docker system ...";
 docker system prune -a -f
