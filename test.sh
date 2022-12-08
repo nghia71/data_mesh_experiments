@@ -28,8 +28,7 @@ docker exec --interactive --tty ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-co
 NO_MESSAGES="$(cat recv_messages.txt | wc -l)"
 echo "Received ${NO_MESSAGES} messages ✅";
 
-DIFF="$(diff sent_messages.txt recv_messages.txt)";
-if [ -z $DIFF ]; then
+if [ -z "$(diff sent_messages.txt recv_messages.txt)" ]; then
     echo "All ${NO_MESSAGES} messages matched ✅";
     rm sent_messages.txt recv_messages.txt
 
