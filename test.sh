@@ -22,3 +22,4 @@ docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
     --topic ${KRAFT_TEST_TOPIC} \
     --from-beginning --max-messages ${NO_MESSAGES} \
     --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT}
+echo "${NO_MESSAGES} messages received ✅";
