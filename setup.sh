@@ -9,7 +9,7 @@
 # sed -i 's/KAFKA_STORAGE_UUID=.*/KAFKA_STORAGE_UUID='${KAFKA_STORAGE_UUID}'/';
 # echo "Kafka storage UUID is set to ${KAFKA_STORAGE_UUID} ✅";
 
-source .env;
+source .env
 env
 
 echo "Create volumes for data and logs ...";
