@@ -3,11 +3,12 @@
 source .env_template;
 
 echo "Prepare Kafka image...";
-KAFKA_IMAGE="${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}";
-KAFKA_TAGGED_IMAGE="${KAFKA_IMAGE}:${KAFKA_IMAGE_VERSION}";
-if [ -z "$(docker images | grep ${KAFKA_IMAGE})" ]; then
-    CURRENT_UID=$(id -u):$(id -g) docker compose pull -t ${KAFKA_IMAGE_NAME};
-fi
+CURRENT_UID=$(id -u):$(id -g) docker compose build;
+# KAFKA_IMAGE="${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}";
+# KAFKA_TAGGED_IMAGE="${KAFKA_IMAGE}:${KAFKA_IMAGE_VERSION}";
+# if [ -z "$(docker images | grep ${KAFKA_IMAGE})" ]; then
+#     CURRENT_UID=$(id -u):$(id -g) docker compose pull -t ${KAFKA_IMAGE_NAME};
+# fi
 echo "Kafka image ${KAFKA_TAGGED_IMAGE} are ready ✅";
 
 echo "Seting up Kafka storage UUID ...";
@@ -24,11 +25,15 @@ do
     DATA_DIR="${!DATA_DIR_VAR}";
     LOGS_DIR_VAR="KRAFT_${i}_LOGS_VOL";
     LOGS_DIR="${!LOGS_DIR_VAR}";
+    CONF_DIR_VAR="KRAFT_${i}_CONF_VOL";
+    CONF_DIR="${!CONF_DIR_VAR}";
 
     mkdir -p ${DATA_DIR};
     mkdir -p ${LOGS_DIR};
+    mkdir -p ${CONF_DIR};
     chown -R $(id -u):$(id -g) ${DATA_DIR};
     chown -R $(id -u):$(id -g) ${LOGS_DIR};
+    chown -R $(id -u):$(id -g) ${CONF_DIR};
 
     ((i = i + 1))
 done
