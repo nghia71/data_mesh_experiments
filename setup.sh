@@ -1,14 +1,9 @@
 #!/bin/bash
 
-source .env_template;
+source .env_template
 
 echo "Prepare Kafka image...";
 CURRENT_UID=$(id -u):$(id -g) docker compose build;
-# KAFKA_IMAGE="${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}";
-# KAFKA_TAGGED_IMAGE="${KAFKA_IMAGE}:${KAFKA_IMAGE_VERSION}";
-# if [ -z "$(docker images | grep ${KAFKA_IMAGE})" ]; then
-#     CURRENT_UID=$(id -u):$(id -g) docker compose pull -t ${KAFKA_IMAGE_NAME};
-# fi
 echo "Kafka image ${KAFKA_TAGGED_IMAGE} are ready ✅";
 
 echo "Seting up Kafka storage UUID ...";
