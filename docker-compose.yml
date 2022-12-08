@@ -10,7 +10,7 @@ services:
     container_name: ${KRAFT_1_CONTAINER_NAME}
     # restart: always
     ports:
-      - "${KRAFT_EXTERNAL_PORT}:${KRAFT_1_EXTERNAL_PORT}"
+      - "${KRAFT_1_EXTERNAL_PORT}:${KRAFT_1_EXTERNAL_PORT}"
     networks:
       - backend
     environment:
@@ -35,7 +35,7 @@ services:
     container_name: ${KRAFT_2_CONTAINER_NAME}
     # restart: always
     ports:
-      - "${KRAFT_EXTERNAL_PORT}:${KRAFT_2_EXTERNAL_PORT}"
+      - "${KRAFT_1_EXTERNAL_PORT}:${KRAFT_2_EXTERNAL_PORT}"
     networks:
       - backend
     environment:
