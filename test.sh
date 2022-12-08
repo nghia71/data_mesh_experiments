@@ -44,6 +44,7 @@ DIFF="$(diff sent_messages.txt recv_messages.txt)";
 
 if [ -z $DIFF ]; then
     echo "All ${NO_MESSAGES} messages matched ✅";
+    rm sent_messages.txt recv_messages.txt
 else
     echo "ERROR: sent and received messages do not match.";
 fi
