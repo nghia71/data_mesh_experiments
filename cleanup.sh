@@ -10,5 +10,5 @@ docker system prune -a -f
 echo "Docker system pruned ✅";
 
 echo "Removing instance files ...";
-sudo rm -rf vol
+rm -rf vol
 echo "Instance files removed ✅";
