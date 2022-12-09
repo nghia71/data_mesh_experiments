@@ -31,7 +31,4 @@ echo "Starting Kafka server...";
 child=$!
 echo "Kafka server ${KRAFT_CONTAINER_NAME} started ✅";
 
-chmod -R a+rw /tmp/server
-chmod -R a+rw /var/lib/kafka/data
-
 wait "$child";
