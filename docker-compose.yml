@@ -11,7 +11,7 @@ services:
   ####################
   # kafka-1
   #
-  ${KRAFT_1_CONTAINER_NAME}:
+  kafka-1:
     build: 
       context: ./kafka
       dockerfile: Dockerfile
@@ -39,7 +39,7 @@ services:
   ####################
   # kafka-2
   #
-  ${KRAFT_2_CONTAINER_NAME}:
+  kafka-2:
     build: 
       context: ./kafka
       dockerfile: Dockerfile
@@ -67,7 +67,7 @@ services:
   ####################
   # schema-registry
   #
-  ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}:
+  schema-registry:
     image: ${KRAFT_SCHEMA_REGISTRY_IMAGE_NAME}
     hostname: ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}
     container_name: ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}
@@ -85,7 +85,7 @@ services:
   ####################
   # file-connector
   #
-  ${KRAFT_FILE_LOADER_CONTAINER_NAME}:
+  file-loader:
     image: {$KRAFT_FILE_LOADER_IMAGE_NAME}
     container_name: ${KRAFT_FILE_LOADER_CONTAINER_NAME}
     depends_on:
