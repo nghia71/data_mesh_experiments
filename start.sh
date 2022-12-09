@@ -22,7 +22,5 @@ do
     ./kafka/wait-for-it.sh ${KRAFT_HOST};
     echo "${KRAFT_CONTAINER_NAME} is ready ✅";
 
-    docker exec ${KRAFT_CONTAINER_NAME} bash -c "chmod -R a+rw /tmp/server /var/lib/kafka/data"
-
     ((i = i + 1))
 done
