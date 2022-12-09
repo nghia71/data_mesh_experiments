@@ -86,7 +86,7 @@ services:
   # file-connector
   #
   file-loader:
-    image: {$KRAFT_FILE_LOADER_IMAGE_NAME}
+    image: ${KRAFT_FILE_LOADER_IMAGE_NAME}
     container_name: ${KRAFT_FILE_LOADER_CONTAINER_NAME}
     depends_on:
       - ${KRAFT_1_CONTAINER_NAME}
