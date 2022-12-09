@@ -1,6 +1,16 @@
 version: "3.8"
 
+##############################################################################
+#
+# services
+# - brokers: kafka-1, kafka-2, schema_registry
+#
+##############################################################################
 services:
+  
+  ####################
+  # kafka-1
+  #
   kafka-1:
     build: 
       context: ./kafka
@@ -27,6 +37,9 @@ services:
       - "${KRAFT_1_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_1_LOGS_VOL}:/tmp/server/"
 
+  ####################
+  # kafka-2
+  #
   kafka-2:
     build: 
       context: ./kafka
@@ -53,6 +66,30 @@ services:
       - "${KRAFT_2_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_2_LOGS_VOL}:/tmp/server/"
 
+  ####################
+  # schema-registry
+  #
+  schema-registry:
+    image: ${KRAFT_SCHEMA_REGISTRY_IMAGE}
+    hostname: ${KRAFT_SCHEMA_REGISTRY_HOST_NAME}
+    container_name: ${KRAFT_SCHEMA_REGISTRY_HOST_NAME}
+    ports:
+      - "${KRAFT_SCHEMA_REGISTRY_PORT}:${KRAFT_SCHEMA_REGISTRY_PORT}"
+    depends_on:
+      - kafka-1
+      - kafka-2
+    networks:
+      - backend
+    environment:
+      - SCHEMA_REGISTRY_HOST_NAME=${KRAFT_SCHEMA_REGISTRY_HOST_NAME}
+      - SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP.SERVERS=${KRAFT_1_CONTAINER_NAME}:${KRAFT_1_CONTROLLER_PORT}
+
+################################################################################
+#
+# networks
+# - backend
+#
+################################################################################
 networks:
   backend:
     name: backend
