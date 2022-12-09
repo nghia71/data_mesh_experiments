@@ -11,18 +11,18 @@ services:
   ####################
   # kafka-1
   #
-  kafka-1:
+  ${KRAFT_1_CONTAINER_NAME}:
     build: 
       context: ./kafka
       dockerfile: Dockerfile
     image: ${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}:${KAFKA_IMAGE_VERSION}
-    hostname: ${KRAFT_1_HOST_NAME}
+    hostname: ${KRAFT_1_CONTAINER_NAME}
     container_name: ${KRAFT_1_CONTAINER_NAME}
     # restart: always
     ports:
       - "${KRAFT_1_EXTERNAL_PORT}:${KRAFT_1_EXTERNAL_PORT}"
     networks:
-      - backend
+      - ${BACKEND_NETWORK}
     environment:
       - KAFKA_STORAGE_UUID=${KAFKA_STORAGE_UUID}
       - KRAFT_ID=${KRAFT_1_ID}
@@ -40,18 +40,18 @@ services:
   ####################
   # kafka-2
   #
-  kafka-2:
+  ${KRAFT_2_CONTAINER_NAME}:
     build: 
       context: ./kafka
       dockerfile: Dockerfile
     image: ${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}:${KAFKA_IMAGE_VERSION}
-    hostname: ${KRAFT_2_HOST_NAME}
+    hostname: ${KRAFT_2_CONTAINER_NAME}
     container_name: ${KRAFT_2_CONTAINER_NAME}
     # restart: always
     ports:
       - "${KRAFT_2_EXTERNAL_PORT}:${KRAFT_2_EXTERNAL_PORT}"
     networks:
-      - backend
+      - ${BACKEND_NETWORK}
     environment:
       - KAFKA_STORAGE_UUID=${KAFKA_STORAGE_UUID}
       - KRAFT_ID=${KRAFT_2_ID}
@@ -69,20 +69,62 @@ services:
   ####################
   # schema-registry
   #
-  schema-registry:
-    image: ${KRAFT_SCHEMA_REGISTRY_IMAGE}
-    hostname: ${KRAFT_SCHEMA_REGISTRY_HOST_NAME}
-    container_name: ${KRAFT_SCHEMA_REGISTRY_HOST_NAME}
+  ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}:
+    image: ${KRAFT_SCHEMA_REGISTRY_IMAGE_NAME}
+    hostname: ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}
+    container_name: ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}
     ports:
       - "${KRAFT_SCHEMA_REGISTRY_PORT}:${KRAFT_SCHEMA_REGISTRY_PORT}"
     depends_on:
-      - kafka-1
-      - kafka-2
+      - ${KRAFT_1_CONTAINER_NAME}
+      - ${KRAFT_2_CONTAINER_NAME}
     networks:
-      - backend
+      - ${BACKEND_NETWORK}
     environment:
-      - SCHEMA_REGISTRY_HOST_NAME=${KRAFT_SCHEMA_REGISTRY_HOST_NAME}
-      - SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP.SERVERS=${KRAFT_1_CONTAINER_NAME}:${KRAFT_1_CONTROLLER_PORT}
+      - SCHEMA_REGISTRY_HOST_NAME=${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}
+      - SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP.SERVERS=${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}:${KRAFT_1_CONTROLLER_PORT}
+
+  ####################
+  # file-connector
+  #
+  ${KRAFT_FILE_LOADER_CONTAINER_NAME}:
+    image: {$KRAFT_FILE_LOADER_IMAGE_NAME}
+    container_name: ${KRAFT_FILE_LOADER_CONTAINER_NAME}
+    depends_on:
+      - ${KRAFT_1_CONTAINER_NAME}
+      - ${KRAFT_2_CONTAINER_NAME}
+      - ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}
+    ports:
+      - "${KRAFT_FILE_LOADER_REST_PORT}:${KRAFT_FILE_LOADER_REST_PORT}"
+      - "${KRAFT_FILE_LOADER_CONF_PORT}:${KRAFT_FILE_LOADER_CONF_PORT}"
+    networks:
+      - ${BACKEND_NETWORK}
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}:${KRAFT_1_CONTROLLER_PORT}
+      CONNECT_REST_ADVERTISED_HOST_NAME: ${KRAFT_FILE_LOADER_CONTAINER_NAME}
+      CONNECT_REST_PORT: ${KRAFT_FILE_LOADER_REST_PORT}
+      CONNECT_GROUP_ID: ${KRAFT_FILE_LOADER_CONTAINER_NAME}-group
+      CONNECT_CONFIG_STORAGE_TOPIC: ${KRAFT_FILE_LOADER_CONTAINER_NAME}-configs
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: ${KRAFT_TEST_REPLICATION_FACTOR}
+      CONNECT_OFFSET_FLUSH_INTERVAL_MS: ${KRAFT_FILE_LOADER_OFFSET_FLUSH_INTERVAL_MS}
+      CONNECT_OFFSET_STORAGE_TOPIC: ${KRAFT_FILE_LOADER_CONTAINER_NAME}-offsets
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: ${KRAFT_TEST_REPLICATION_FACTOR}
+      CONNECT_STATUS_STORAGE_TOPIC: ${KRAFT_FILE_LOADER_CONTAINER_NAME}-status
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: ${KRAFT_TEST_REPLICATION_FACTOR}
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}:${KRAFT_SCHEMA_REGISTRY_PORT}
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_ZOOKEEPER_CONNECT: ${KRAFT_SCHEMA_REGISTRY_CONTAINER_NAME}:${KRAFT_1_CONTROLLER_PORT}
+      # kafka-connect-file-pulse is installed as a confluent-hub component
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components/"
+      CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
+      # CONNECT_LOG4J_LOGGERS: io.streamthoughts=DEBUG,org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+      # Uncomment for debugging the connector during development cycle
+      # KAFKA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n"
+    volumes:
+      - ${KRAFT_FILE_LOADER_DATA_VOL}:/tmp/connect-data
 
 ################################################################################
 #
@@ -92,4 +134,4 @@ services:
 ################################################################################
 networks:
   backend:
-    name: backend
+    name: ${BACKEND_NETWORK}
