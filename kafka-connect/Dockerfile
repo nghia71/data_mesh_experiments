@@ -17,6 +17,6 @@ WORKDIR /opt/kafka
 COPY ./conf/server.properties ./config/kraft/.
 COPY ./*.sh ./
 
-EXPOSE $KRAFT_BROKER_PORT $KRAFT_CONTROLLER_PORT $KRAFT_EXTERNAL_PORT
+EXPOSE $KAFKA_CONNECT_PORT
 
-ENTRYPOINT [ "./connect-docker-entrypoint.sh" ]
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
