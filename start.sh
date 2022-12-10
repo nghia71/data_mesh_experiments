@@ -19,7 +19,7 @@ do
     KRAFT_HOST="${CLUSTER_IP}:${!KRAFT_EXTERNAL_PORT_VAR}"
 
     echo "Wait for ${KRAFT_CONTAINER_NAME} ...";
-    ./kafka/wait-for-it.sh ${KRAFT_HOST};
+    ./wait-for-it.sh ${KRAFT_HOST};
     echo "${KRAFT_CONTAINER_NAME} is ready ✅";
 
     ((i = i + 1))

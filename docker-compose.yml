@@ -79,7 +79,7 @@ services:
   #
   kafka-connect-standalone:
     build:
-      context: ./kafka
+      context: ./kafka-connect
       dockerfile: Dockerfile
     image: ${DOCKERHUB_ACCOUNT}/${KAFKA_CONNECT_STANDALONE}:${KAFKA_IMAGE_VERSION}
     container_name: ${KAFKA_CONNECT_STANDALONE}
