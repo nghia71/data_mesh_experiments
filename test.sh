@@ -44,7 +44,7 @@ TEST_MESSAGES="foo\nbar"
 NO_MESSAGES=2
 
 echo "Create test.txt file for connect-test topic with file-source connector ...";
-docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'echo -e ${TEST_MESSAGES} > ${TEST_FILE}';
+docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'echo -e "${TEST_MESSAGES}" > ${TEST_FILE}';
 echo "${TEST_FILE} created ✅";
 
 docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/connect-standalone.sh \
