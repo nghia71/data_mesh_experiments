@@ -39,15 +39,12 @@ docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-topics.sh \
     --bootstrap-server ${CLUSTER_IP}:${KRAFT_1_EXTERNAL_PORT};
 echo "${KRAFT_TEST_TOPIC} deleted ✅";
 
+TEST_SOURCE_FILE=./vol/connect/source.txt
 echo "Create test.txt file for connect-test topic with file-source connector ...";
-docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'echo -e "foo\nbar" > test.txt';
-echo "${TEST_FILE} created ✅";
+echo -e "foo\nbar" > ./vol/connect/source.txt;
+echo "${TEST_SOURCE_FILE} created ✅";
+
+sleep 3
 
 TEST_SINK_FILE=test.sink.txt
-docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'cat test.sink.txt';
-
-CONNECT_TEST_TOPIC=connect-test
-docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
-    --topic ${CONNECT_TEST_TOPIC} \
-    --from-beginning --max-messages 2 \
-    --bootstrap-server ${KRAFT_1_CONTAINER_NAME}:${KRAFT_1_EXTERNAL_PORT};
+cat ${TEST_SINK_FILE};
