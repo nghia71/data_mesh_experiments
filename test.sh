@@ -38,3 +38,25 @@ docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-topics.sh \
     --delete --topic ${KRAFT_TEST_TOPIC} \
     --bootstrap-server ${CLUSTER_IP}:${KRAFT_1_EXTERNAL_PORT};
 echo "${KRAFT_TEST_TOPIC} deleted ✅";
+
+TEST_FILE=test.txt
+TEST_MESSAGES="foo\nbar"
+
+echo "Create test.txt file for connect-test topic with file-source connector ...";
+echo -e ${TEST_MESSAGES} > ${TEST_FILE}
+NO_MESSAGES='cat ${TEST_FILE} | wc -l'
+echo "${TEST_FILE} created ✅";
+
+docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/connect-standalone.sh \
+    config/connect-standalone.properties \
+    config/connect-file-source.properties \
+    config/connect-file-sink.properties;
+
+TEST_SINK_FILE=test.sink.txt
+docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'cat ${TEST_SINK_FILE}';
+
+CONNECT_TEST_TOPIC=connect-test
+docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
+    --topic ${CONNECT_TEST_TOPIC} \
+    --from-beginning --max-messages ${NO_MESSAGES} \
+    --bootstrap-server ${KRAFT_1_CONTAINER_NAME}:${KRAFT_1_EXTERNAL_PORT};

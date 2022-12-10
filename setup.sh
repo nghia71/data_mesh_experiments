@@ -33,8 +33,5 @@ do
 
     ((i = i + 1))
 done
-
-mkdir -p ${KRAFT_FILE_LOADER_DATA_VOL}
-chown -R $(id -u):$(id -g) ${KRAFT_FILE_LOADER_DATA_VOL}
-
+ 
 echo "Volumes for Kafka data and logs are created ✅";

@@ -10,7 +10,7 @@ trap _term SIGINT SIGTERM
 properties_file=/opt/kafka/config/kraft/server.properties;
 echo ${KRAFT_ID} ${CLUSTER_IP} ${KRAFT_BROKER_PORT} ${KRAFT_CONTROLLER_PORT} ${KRAFT_EXTERNAL_PORT} ${KAFKA_STORAGE_UUID} ${KRAFT_CONTAINER_NAME} ${KRAFT_QUORUM_VOTERS}
 
-echo "Applying environment variables ...";
+echo "Setting up environment variables for ${KRAFT_ID} broker/controller ...";
 echo "process.roles=broker,controller" | cat - $properties_file > temp && mv temp $properties_file;
 echo "node.id=${KRAFT_ID}" | cat - $properties_file > temp && mv temp $properties_file;
 echo "controller.quorum.voters=${KRAFT_QUORUM_VOTERS}" | cat - $properties_file > temp && mv temp $properties_file;
@@ -20,7 +20,11 @@ echo "listeners=PLAINTEXT://:${KRAFT_BROKER_PORT},CONTROLLER://:${KRAFT_CONTROLL
 echo "advertised.listeners=PLAINTEXT://${KRAFT_CONTAINER_NAME}:${KRAFT_BROKER_PORT},EXTERNAL://${CLUSTER_IP}:${KRAFT_EXTERNAL_PORT}" >> $properties_file;
 echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL,EXTERNAL:PLAINTEXT" >> $properties_file;
 echo "log.dirs=/tmp/server/kraft-combined-logs" >> $properties_file;
-echo "Environment variables applied ✅";
+echo "Environment variables afor ${KRAFT_ID} broker/controller are set ✅";
+
+connect_properties=/opt/kafka/config/connect-standalone.properties;
+sed -i 's/bootstrap.servers=localhost:9092/bootstrap.servers='${KRAFT_CONTAINER_NAME}':'${KRAFT_BROKER_PORT}'/' $connect_properties; 
+sed -i 's/#plugin.path=/plugin.path=libs\/connect-file-3.3.1.jar/' $connect_properties;
 
 echo "Setting up Kafka storage ...";
 ./bin/kafka-storage.sh format -t ${KAFKA_STORAGE_UUID} -c ./config/kraft/server.properties;
