@@ -17,14 +17,14 @@ echo "Environment variables for ${KAFKA_CONNECT_STANDALONE} connect-standalone.p
 
 properties_file=/opt/kafka/config/connect-file-source.properties;
 echo "Setting up environment variables for ${KAFKA_CONNECT_STANDALONE} connect-file-source.properties ...";
-sed -i 's/file=test.txt/file='${KAFKA_CONNECT_SOURCE_FILE}'/' $properties_file; 
-sed -i 's/topic=connect-test/topic='${KAFKA_CONNECT_SOURCE_TOPIC}'/' $properties_file; 
+sed -i 's/file=test.txt/file='"${KAFKA_CONNECT_SOURCE_FILE}"'/' $properties_file; 
+sed -i 's/topic=connect-test/topic='"${KAFKA_CONNECT_SOURCE_TOPIC}"'/' $properties_file; 
 echo "Environment variables for ${KAFKA_CONNECT_STANDALONE} connect-file-source.properties are set ✅";
 
 properties_file=/opt/kafka/config/connect-file-sink.properties;
 echo "Setting up environment variables for ${KAFKA_CONNECT_STANDALONE} connect-file-sink.properties ...";
-sed -i 's/file=test.txt/file='${KAFKA_CONNECT_SINK_FILE}'/' $properties_file; 
-sed -i 's/topic=connect-test/topic='${KAFKA_CONNECT_SINK_TOPIC}'/' $properties_file; 
+sed -i 's/file=test.txt/file='"${KAFKA_CONNECT_SINK_FILE}"'/' $properties_file; 
+sed -i 's/topic=connect-test/topic='"${KAFKA_CONNECT_SINK_TOPIC}"'/' $properties_file; 
 echo "Environment variables for ${KAFKA_CONNECT_STANDALONE} connect-file-sink.properties are set ✅";
 
 echo "Starting Kafka ${KAFKA_CONNECT_STANDALONE} ...";
