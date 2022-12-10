@@ -16,9 +16,9 @@ echo "Local IP is set to ${CLUSTER_IP} ✅";
 source .env
 
 echo "Create volumes for data and logs ...";
-NUMER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
+NUMBER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
 i=1
-while [[ $i -le $NUMER_OF_KAFKA_INSTANCES ]]
+while [[ $i -le $NUMBER_OF_KAFKA_INSTANCES ]]
 do
     DATA_DIR_VAR="KRAFT_${i}_DATA_VOL";
     DATA_DIR="${!DATA_DIR_VAR}";

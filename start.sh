@@ -9,9 +9,9 @@ CURRENT_UID=$(id -u):$(id -g) docker compose up -d
 
 echo "Wait for all services to be ready ...";
 source .env;
-NUMER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
+NUMBER_OF_KAFKA_INSTANCES=$(set | grep KRAFT_._ID | wc -l)
 i=1
-while [[ $i -le $NUMER_OF_KAFKA_INSTANCES ]]
+while [[ $i -le $NUMBER_OF_KAFKA_INSTANCES ]]
 do
     KRAFT_CONTAINER_NAME_VAR="KRAFT_${i}_CONTAINER_NAME"
     KRAFT_CONTAINER_NAME="${!KRAFT_CONTAINER_NAME_VAR}";
