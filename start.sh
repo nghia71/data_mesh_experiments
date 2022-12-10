@@ -24,3 +24,7 @@ do
 
     ((i = i + 1))
 done
+
+echo "Wait for ${KAFKA_CONNECT_STANDALONE} ...";
+./wait-for-it.sh ${CLUSTER_IP}:${KAFKA_CONNECT_PORT};
+echo "${KAFKA_CONNECT_STANDALONE} is ready ✅";
