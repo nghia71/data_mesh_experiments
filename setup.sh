@@ -33,5 +33,8 @@ do
 
     ((i = i + 1))
 done
- 
+
+mkdir -p ${KAFKA_CONNECT_VOL};
+chown -R $(id -u):$(id -g) ${KAFKA_CONNECT_VOL};
+
 echo "Volumes for Kafka data and logs are created ✅";
