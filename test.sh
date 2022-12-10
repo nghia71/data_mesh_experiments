@@ -41,7 +41,7 @@ echo "${KRAFT_TEST_TOPIC} deleted ✅";
 
 echo "Create test.txt file for connect-test topic with file-source connector ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'echo -e "foo\nbar" > test.txt';
-echo "${TEST_FILE} created ✅";
+echo "test.txt created ✅";
 
 TEST_SINK_FILE=test.sink.txt
 docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'cat test.sink.txt';
