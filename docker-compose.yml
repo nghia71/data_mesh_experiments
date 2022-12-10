@@ -69,7 +69,7 @@ services:
       - KRAFT_OFFSETS_TOPIC_REPLICATION_FACTOR=${KRAFT_OFFSETS_TOPIC_REPLICATION_FACTOR}
       - KRAFT_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=${KRAFT_TRANSACTION_STATE_LOG_REPLICATION_FACTOR}
       - KRAFT_TRANSACTION_STATE_LOG_MIN_ISR=${KRAFT_TRANSACTION_STATE_LOG_MIN_ISR}
-      - DOCKER_ENTRYPOINT_SCRIPT=controller-docker-entrypoint.sh
+      - DOCKER_ENTRYPOINT_SCRIPT="controller-docker-entrypoint.sh"
     volumes:
       - "${KRAFT_2_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_2_LOGS_VOL}:/tmp/server/"
@@ -97,7 +97,7 @@ services:
       - KAFKA_CONNECT_SINK_FILE=${KAFKA_CONNECT_SINK_FILE}
       - KRAFT_CONTAINER_NAME=${KRAFT_1_CONTAINER_NAME}
       - KRAFT_BROKER_PORT=${KRAFT_1_BROKER_PORT}
-      - DOCKER_ENTRYPOINT_SCRIPT=connect-docker-entrypoint.sh
+      - DOCKER_ENTRYPOINT_SCRIPT="connect-docker-entrypoint.sh"
     volumes:
       - "${KAFKA_CONNECT_VOL}:/tmp"
 ################################################################################
