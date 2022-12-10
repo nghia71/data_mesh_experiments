@@ -32,10 +32,74 @@ services:
       - KRAFT_EXTERNAL_PORT=${KRAFT_1_EXTERNAL_PORT}
       - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
       - CLUSTER_IP=${CLUSTER_IP}
+      - KRAFT_NUM_PARTITIONS=${KRAFT_NUM_PARTITIONS}
+      - KRAFT_OFFSETS_TOPIC_REPLICATION_FACTOR=${KRAFT_OFFSETS_TOPIC_REPLICATION_FACTOR}
+      - KRAFT_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=${KRAFT_TRANSACTION_STATE_LOG_REPLICATION_FACTOR}
+      - KRAFT_TRANSACTION_STATE_LOG_MIN_ISR=${KRAFT_TRANSACTION_STATE_LOG_MIN_ISR}
+      - DOCKER_ENTRYPOINT_SCRIPT=controller-docker-entrypoint.sh
     volumes:
       - "${KRAFT_1_DATA_VOL}:/var/lib/kafka/data"
       - "${KRAFT_1_LOGS_VOL}:/tmp/server/"
 
+  ####################
+  # kafka-2
+  #
+  kafka-2:
+    build: 
+      context: ./kafka
+      dockerfile: Dockerfile
+    image: ${DOCKERHUB_ACCOUNT}/${KAFKA_IMAGE_NAME}:${KAFKA_IMAGE_VERSION}
+    hostname: ${KRAFT_2_CONTAINER_NAME}
+    container_name: ${KRAFT_2_CONTAINER_NAME}
+    # restart: always
+    ports:
+      - "${KRAFT_2_EXTERNAL_PORT}:${KRAFT_2_EXTERNAL_PORT}"
+    networks:
+      - ${BACKEND_NETWORK}
+    environment:
+      - KAFKA_STORAGE_UUID=${KAFKA_STORAGE_UUID}
+      - KRAFT_ID=${KRAFT_2_ID}
+      - KRAFT_CONTAINER_NAME=${KRAFT_2_CONTAINER_NAME}
+      - KRAFT_BROKER_PORT=${KRAFT_2_BROKER_PORT}
+      - KRAFT_CONTROLLER_PORT=${KRAFT_2_CONTROLLER_PORT}
+      - KRAFT_EXTERNAL_PORT=${KRAFT_2_EXTERNAL_PORT}
+      - KRAFT_QUORUM_VOTERS=${KRAFT_QUORUM_VOTERS}
+      - CLUSTER_IP=${CLUSTER_IP}
+      - KRAFT_NUM_PARTITIONS=${KRAFT_NUM_PARTITIONS}
+      - KRAFT_OFFSETS_TOPIC_REPLICATION_FACTOR=${KRAFT_OFFSETS_TOPIC_REPLICATION_FACTOR}
+      - KRAFT_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=${KRAFT_TRANSACTION_STATE_LOG_REPLICATION_FACTOR}
+      - KRAFT_TRANSACTION_STATE_LOG_MIN_ISR=${KRAFT_TRANSACTION_STATE_LOG_MIN_ISR}
+      - DOCKER_ENTRYPOINT_SCRIPT=controller-docker-entrypoint.sh
+    volumes:
+      - "${KRAFT_2_DATA_VOL}:/var/lib/kafka/data"
+      - "${KRAFT_2_LOGS_VOL}:/tmp/server/"
+
+  ####################
+  # kafka-connect-standalone
+  #
+  kafka-connect-standalone:
+    build:
+      context: ./kafka
+      dockerfile: Dockerfile
+    image: ${DOCKERHUB_ACCOUNT}/${KAFKA_CONNECT_STANDALONE}:${KAFKA_IMAGE_VERSION}
+    container_name: ${KAFKA_CONNECT_STANDALONE}
+    ports:
+      - "${KAFKA_CONNECT_PORT}:${KAFKA_CONNECT_PORT}"
+    networks:
+      - ${BACKEND_NETWORK}
+    depends_on:
+      - kafka-1
+      - kafka-2
+    environment:
+      - KAFKA_CONNECT_STANDALONE=${KAFKA_CONNECT_STANDALONE}
+      - KAFKA_CONNECT_PORT=${KAFKA_CONNECT_PORT}
+      - KAFKA_CONNECT_SOURCE_FILE=${KAFKA_CONNECT_SOURCE_FILE}
+      - KAFKA_CONNECT_SINK_FILE=${KAFKA_CONNECT_SINK_FILE}
+      - KRAFT_CONTAINER_NAME=${KRAFT_1_CONTAINER_NAME}
+      - KRAFT_BROKER_PORT=${KRAFT_1_BROKER_PORT}
+      - DOCKER_ENTRYPOINT_SCRIPT=connect-docker-entrypoint.sh
+    volumes:
+      - "${KAFKA_CONNECT_VOL}:/tmp"
 ################################################################################
 #
 # networks

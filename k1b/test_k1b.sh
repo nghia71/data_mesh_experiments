@@ -15,14 +15,14 @@ seq ${NO_MESSAGES} > sent.txt;
 
 echo "Sending ${NO_MESSAGES} messages into ${KRAFT_TEST_TOPIC} ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} \
-    bash -c "seq ${NO_MESSAGES} | ./bin/kafka-console-producer.sh  --topic ${KRAFT_TEST_TOPIC}  --bootstrap-server ${KRAFT_2_CONTAINER_NAME}:${KRAFT_2_EXTERNAL_PORT}"
+    bash -c "seq ${NO_MESSAGES} | ./bin/kafka-console-producer.sh  --topic ${KRAFT_TEST_TOPIC}  --bootstrap-server ${KRAFT_1_CONTAINER_NAME}:${KRAFT_1_EXTERNAL_PORT}"
 echo "${NO_MESSAGES} messages sent ✅";
 
 echo "Receiving ${NO_MESSAGES} messages from ${KRAFT_TEST_TOPIC} ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
     --topic ${KRAFT_TEST_TOPIC} \
     --from-beginning --max-messages ${NO_MESSAGES} \
-    --bootstrap-server ${CLUSTER_IP}:${KRAFT_2_EXTERNAL_PORT} > recv.txt
+    --bootstrap-server ${CLUSTER_IP}:${KRAFT_1_EXTERNAL_PORT} > recv.txt
 echo "${NO_MESSAGES} messages received ✅";
 
 if [ -z "$(diff recv.txt sent.txt)" ]; then
@@ -41,7 +41,7 @@ echo "${KRAFT_TEST_TOPIC} deleted ✅";
 
 echo "Create test.txt file for connect-test topic with file-source connector ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'echo -e "foo\nbar" > test.txt';
-echo "${TEST_FILE} created ✅";
+echo "test.txt created ✅";
 
 TEST_SINK_FILE=test.sink.txt
 docker exec ${KRAFT_1_CONTAINER_NAME} bash -c 'cat test.sink.txt';
