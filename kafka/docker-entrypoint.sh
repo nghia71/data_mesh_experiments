@@ -17,7 +17,7 @@ echo "controller.quorum.voters=${KRAFT_QUORUM_VOTERS}" | cat - $properties_file 
 echo "inter.broker.listener.name=PLAINTEXT" >> $properties_file;
 echo "controller.listener.names=CONTROLLER" >> $properties_file;
 echo "listeners=PLAINTEXT://:${KRAFT_BROKER_PORT},CONTROLLER://:${KRAFT_CONTROLLER_PORT},EXTERNAL://:${KRAFT_EXTERNAL_PORT}" >> $properties_file;
-echo "advertised.listeners=PLAINTEXT://${KRAFT_CONTAINER_NAME}:${KRAFT_BROKER_PORT},EXTERNAL://${LOCAL_IP}:${KRAFT_EXTERNAL_PORT}" >> $properties_file;
+echo "advertised.listeners=PLAINTEXT://${KRAFT_CONTAINER_NAME}:${KRAFT_BROKER_PORT},EXTERNAL://${CLUSTER_IP}:${KRAFT_EXTERNAL_PORT}" >> $properties_file;
 echo "listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL,EXTERNAL:PLAINTEXT" >> $properties_file;
 echo "log.dirs=/tmp/server/kraft-combined-logs" >> $properties_file;
 echo "Environment variables applied ✅";

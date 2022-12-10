@@ -22,7 +22,7 @@ echo "Receiving ${NO_MESSAGES} messages from ${KRAFT_TEST_TOPIC} ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-console-consumer.sh \
     --topic ${KRAFT_TEST_TOPIC} \
     --from-beginning --max-messages ${NO_MESSAGES} \
-    --bootstrap-server ${LOCAL_IP}:${KRAFT_2_EXTERNAL_PORT} > recv.txt
+    --bootstrap-server ${CLUSTER_IP}:${KRAFT_2_EXTERNAL_PORT} > recv.txt
 echo "${NO_MESSAGES} messages received ✅";
 
 if [ -z "$(diff recv.txt sent.txt)" ]; then
@@ -36,5 +36,5 @@ rm recv.txt sent.txt
 echo "Deleting ${KRAFT_TEST_TOPIC} ...";
 docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/kafka-topics.sh \
     --delete --topic ${KRAFT_TEST_TOPIC} \
-    --bootstrap-server ${LOCAL_IP}:${KRAFT_1_EXTERNAL_PORT};
+    --bootstrap-server ${CLUSTER_IP}:${KRAFT_1_EXTERNAL_PORT};
 echo "${KRAFT_TEST_TOPIC} deleted ✅";
