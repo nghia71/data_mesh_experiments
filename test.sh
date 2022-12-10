@@ -43,7 +43,7 @@ TEST_FILE=test.txt
 TEST_MESSAGES="foo\nbar"
 
 echo "Create test.txt file for connect-test topic with file-source connector ...";
-echo -e ${TEST_MESSAGES} > ${TEST_FILE}
+docker exec ${KRAFT_1_CONTAINER_NAME} -bash -c 'echo -e ${TEST_MESSAGES} > ${TEST_FILE}';
 NO_MESSAGES='cat ${TEST_FILE} | wc -l'
 echo "${TEST_FILE} created ✅";
 
