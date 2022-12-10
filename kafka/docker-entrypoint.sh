@@ -36,10 +36,7 @@ child=$!
 echo "Kafka server ${KRAFT_CONTAINER_NAME} started ✅";
 
 echo "Starting Kafka connect standalone ...";
-docker exec ${KRAFT_1_CONTAINER_NAME} ./bin/connect-standalone.sh \
-    config/connect-standalone.properties \
-    config/connect-file-source.properties \
-    config/connect-file-sink.properties &
+./bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties &
 echo "Kafka connect standalone started ✅";
 
 wait "$child";
