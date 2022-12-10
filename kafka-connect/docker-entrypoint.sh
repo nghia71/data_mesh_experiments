@@ -24,7 +24,7 @@ echo "Environment variables for ${KAFKA_CONNECT_STANDALONE} connect-file-source.
 properties_file=/opt/kafka/config/connect-file-sink.properties;
 echo "Setting up environment variables for ${KAFKA_CONNECT_STANDALONE} connect-file-sink.properties ...";
 sed -i 's/file=test.sink.txt/file='${KAFKA_CONNECT_SINK_FILE}'/' $properties_file; 
-sed -i 's/topics=connect-test/topic='${KAFKA_CONNECT_SINK_TOPIC}'/' $properties_file; 
+sed -i 's/topics=connect-test/topics='${KAFKA_CONNECT_SINK_TOPIC}'/' $properties_file; 
 echo "Environment variables for ${KAFKA_CONNECT_STANDALONE} connect-file-sink.properties are set ✅";
 
 echo "Starting Kafka ${KAFKA_CONNECT_STANDALONE} ...";

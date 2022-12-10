@@ -46,5 +46,5 @@ echo "${TEST_SOURCE_FILE} created ✅";
 
 sleep 3
 
-TEST_SINK_FILE=test.sink.txt
+TEST_SINK_FILE=./vol/connect/sink.txt
 cat ${TEST_SINK_FILE};
