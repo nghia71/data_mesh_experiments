@@ -24,17 +24,19 @@ do
     DATA_DIR="${!DATA_DIR_VAR}";
     LOGS_DIR_VAR="KRAFT_${i}_LOGS_VOL";
     LOGS_DIR="${!LOGS_DIR_VAR}";
-    echo $DATA_DIR $LOGS_DIR;
 
     mkdir -p ${DATA_DIR};
     mkdir -p ${LOGS_DIR};
     chown -R $(id -u):$(id -g) ${DATA_DIR};
     chown -R $(id -u):$(id -g) ${LOGS_DIR};
 
+    echo $DATA_DIR $LOGS_DIR;
+
     ((i = i + 1))
 done
 
 mkdir -p ${KAFKA_CONNECT_VOL};
 chown -R $(id -u):$(id -g) ${KAFKA_CONNECT_VOL};
+echo $KAFKA_CONNECT_VOL;
 
 echo "Volumes for Kafka data and logs are created ✅";
